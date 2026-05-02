@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+  moduleFormat  = "cjs"
 }
 
 datasource db {
@@ -21,6 +22,9 @@ enum UserRole {
   TEACHER  @map("teacher")
   STUDENT  @map("student")
   PARENT   @map("parent")
+  PRINCIPAL @map("principal")
+  ADMISSION_COUNSELOR @map("admission_counselor")
+  SUPER_ADMIN @map("super_admin")
 
   @@schema("public")
 }
