@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -9,6 +10,16 @@ import type { StringValue } from 'ms';
 import { User } from '../../generated/prisma/client.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { UserRoles } from './dto/create-user.dto.js';
+
+const ROLE_HIERARCHY: Record<UserRoles, number> = {
+  [UserRoles.SUPER_ADMIN]: 6,
+  [UserRoles.ADMIN]: 4,
+  [UserRoles.PRINCIPAL]: 5,
+  [UserRoles.ADMISSION_COUNSELOR]: 3,
+  [UserRoles.TEACHER]: 2,
+  [UserRoles.PARENT]: 1,
+  [UserRoles.STUDENT]: 0,
+};
 
 @Injectable()
 export class AuthService {
@@ -75,28 +86,58 @@ export class AuthService {
     }
   }
 
-  async createUser(data: {
-    name: string;
-    email: string;
-    password: string;
-    role?: UserRoles;
-  }) {
+  private canCreateRole(
+    creatorRole: UserRoles,
+    targetRole: UserRoles,
+  ): boolean {
+    const creatorRank = ROLE_HIERARCHY[creatorRole];
+    const targetRank = ROLE_HIERARCHY[targetRole];
+
+    if (creatorRank === undefined || targetRank === undefined) {
+      return false;
+    }
+
+    return creatorRank > targetRank;
+  }
+
+  async createUser(
+    data: {
+      name: string;
+      email: string;
+      password: string;
+      role?: UserRoles;
+    },
+    creator: { role?: UserRoles } | null | undefined,
+  ) {
+    if (!creator?.role) {
+      throw new UnauthorizedException('Creator account is required');
+    }
+
+    const role = data.role ?? UserRoles.STUDENT;
+
+    if (!this.canCreateRole(creator.role, role)) {
+      throw new ForbiddenException(
+        `A user with role ${creator.role} cannot create a ${role} account`,
+      );
+    }
+
     const existing = await this.prisma.user.findUnique({
       where: { email: data.email },
     });
     if (existing) {
       throw new UnauthorizedException('User with this email already exists');
     }
-    const role = data.role ? data.role : UserRoles.STUDENT;
+
     const hash = await bcrypt.hash(data.password, 10);
     const user = await this.prisma.user.create({
       data: {
         name: data.name,
         email: data.email,
         passwordHash: hash,
-        role: role,
+        role,
       },
     });
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash, ...rest } = user as User;
     return rest;

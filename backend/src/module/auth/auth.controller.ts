@@ -11,6 +11,7 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
+  ApiForbiddenResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -86,9 +87,12 @@ export class AuthController {
       },
     },
   })
-  @ApiUnauthorizedResponse({ description: 'Not authenticated or not allowed' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
+  @ApiForbiddenResponse({
+    description: 'Creator role is not allowed to create this account',
+  })
   @Post('create')
   async createAccount(@Body() dto: CreateUserDto, @Request() req: any) {
-    return this.authService.createUser(dto);
+    return this.authService.createUser(dto, req.user);
   }
 }
