@@ -138,10 +138,27 @@ model User {
   @@schema("tenant")
 }
 
+// New: AcademicYear model to manage academic periods across the tenant
+model AcademicYear {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @db.VarChar(50)
+  startDate DateTime @map("start_date") @db.Date
+  endDate   DateTime @map("end_date") @db.Date
+  isActive  Boolean  @default(false) @map("is_active")
+
+  classes   SchoolClass[] @relation("AcademicYearClasses")
+
+  @@map("academic_years")
+  @@schema("tenant")
+}
+
 model SchoolClass {
   id              String   @id @default(uuid()) @db.Uuid
   name            String   @db.VarChar(100)
+  // legacy string label (kept for backward compatibility)
   academicYear    String   @map("academic_year") @db.VarChar(20)
+  // optional relation to a dedicated AcademicYear row
+  academicYearId  String?  @map("academic_year_id") @db.Uuid
   classTeacherId  String?  @map("class_teacher_id") @db.Uuid
   createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
@@ -152,9 +169,25 @@ model SchoolClass {
   attendanceSessions AttendanceSession[]
   exams           Exam[]
   groups          ChatGroup[]
+  // sections for the class (A, B, ...)
+  sections        Section[]
+  // optional relation field back to AcademicYear
+  academicYearRel AcademicYear? @relation("AcademicYearClasses", fields: [academicYearId], references: [id], onDelete: SetNull)
 
   @@index([classTeacherId])
   @@map("classes")
+  @@schema("tenant")
+}
+
+model Section {
+  id      String   @id @default(uuid()) @db.Uuid
+  name    String   @db.VarChar(20)
+  classId String   @map("class_id") @db.Uuid
+
+  schoolClass SchoolClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@index([classId])
+  @@map("sections")
   @@schema("tenant")
 }
 
@@ -223,6 +256,19 @@ model TimetableSlot {
   @@index([classId, dayOfWeek])
   @@index([subjectId])
   @@map("timetable_slots")
+  @@schema("tenant")
+}
+
+// Holidays model
+model Holiday {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(200)
+  date        DateTime @db.Date
+  description String?  @db.VarChar(1000)
+  isRecurring Boolean  @default(false) @map("is_recurring")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("holidays")
   @@schema("tenant")
 }
 
