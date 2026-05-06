@@ -29,6 +29,14 @@ enum UserRole {
   @@schema("public")
 }
 
+enum StaffRole {
+  ADMIN    @map("admin")
+  TEACHER  @map("teacher")
+  ADMISSION_COUNSELOR @map("admission_counselor")
+
+  @@schema("public")
+}
+
 enum WeekType {
   EVERY   @map("every")
   ODD     @map("odd")

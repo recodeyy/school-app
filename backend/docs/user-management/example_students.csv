@@ -1,0 +1,6 @@
+name,email,password,className,phone,rollNumber,admissionNumber,dob
+John Doe,john.doe@example.com,SecurePass123!,10-A,9876543210,1,ADM001,2008-05-15
+Jane Smith,jane.smith@example.com,SecurePass456!,10-A,9876543211,2,ADM002,2008-06-20
+Alex Kumar,alex.kumar@example.com,SecurePass789!,10-B,9876543212,1,ADM003,2008-07-25
+Priya Singh,priya.singh@example.com,SecurePass101!,10-B,9876543213,2,ADM004,2008-08-10
+Michael Brown,michael.b@example.com,SecurePass202!,11-A,9876543214,1,ADM005,2007-09-05

@@ -1,0 +1,6 @@
+name,email,password,phone,relationship
+Mr. John Doe,john.parent@example.com,SecurePass123!,9876543210,Father
+Mrs. Jane Doe,jane.parent@example.com,SecurePass456!,9876543211,Mother
+Mr. David Smith,david.smith@example.com,SecurePass789!,9876543212,Father
+Mrs. Sarah Smith,sarah.smith@example.com,SecurePass101!,9876543213,Mother
+Mr. Rajesh Kumar,rajesh.k@example.com,SecurePass202!,9876543214,Guardian

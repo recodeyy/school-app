@@ -1,0 +1,6 @@
+name,email,password,phone,employeeId,designation,department,role
+Mr. Robert Johnson,robert.staff@example.com,SecurePass123!,9876543210,STAFF001,Office Manager,Administration,ADMIN
+Ms. Emily Watson,emily.staff@example.com,SecurePass456!,9876543211,STAFF002,Lab Assistant,Science Lab,TEACHER
+Mr. Arun Gupta,arun.staff@example.com,SecurePass789!,9876543212,STAFF003,Library Assistant,Library,ADMIN
+Mrs. Michelle Davis,michelle.staff@example.com,SecurePass101!,9876543213,STAFF004,Counselor,Student Services,PRINCIPAL
+Mr. Suresh Kumar,suresh.staff@example.com,SecurePass202!,9876543214,STAFF005,IT Support,IT Department,ADMIN

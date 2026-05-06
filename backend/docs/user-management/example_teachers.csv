@@ -1,0 +1,6 @@
+name,email,password,phone,employeeId,subjects,designation
+Dr. Rajesh Kumar,rajesh.teach@example.com,SecurePass123!,9876543210,EMP001,Mathematics|Physics,Senior Teacher
+Ms. Priya Sharma,priya.teach@example.com,SecurePass456!,9876543211,EMP002,English|Literature,Teacher
+Mr. Amit Patel,amit.teach@example.com,SecurePass789!,9876543212,EMP003,Chemistry|Biology,Senior Teacher
+Mrs. Anjali Singh,anjali.teach@example.com,SecurePass101!,9876543213,EMP004,History|Geography,Teacher
+Dr. Vikram Reddy,vikram.teach@example.com,SecurePass202!,9876543214,EMP005,Physics|Astronomy,HOD Science

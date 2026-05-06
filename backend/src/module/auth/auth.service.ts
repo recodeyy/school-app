@@ -13,8 +13,8 @@ import { UserRoles } from './dto/create-user.dto.js';
 
 const ROLE_HIERARCHY: Record<UserRoles, number> = {
   [UserRoles.SUPER_ADMIN]: 6,
-  [UserRoles.ADMIN]: 4,
   [UserRoles.PRINCIPAL]: 5,
+  [UserRoles.ADMIN]: 4,
   [UserRoles.ADMISSION_COUNSELOR]: 3,
   [UserRoles.TEACHER]: 2,
   [UserRoles.PARENT]: 1,
