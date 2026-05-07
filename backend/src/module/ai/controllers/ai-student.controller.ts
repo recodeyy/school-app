@@ -53,7 +53,7 @@ export class AiStudentController {
   @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   @ApiTooManyRequestsResponse({ description: 'AI usage limit exceeded' })
   async askDoubt(@Body() dto: AskDoubtDto, @Request() req: any) {
-    return this.doubtSolverService.solve(dto, req.user.sub, req.user.role);
+    return this.doubtSolverService.solve(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */
@@ -73,7 +73,7 @@ export class AiStudentController {
     @Body() dto: GenerateChapterSummaryDto,
     @Request() req: any,
   ) {
-    return this.chapterSummaryService.generate(dto, req.user.sub, req.user.role);
+    return this.chapterSummaryService.generate(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */
@@ -93,7 +93,7 @@ export class AiStudentController {
     @Body() dto: GenerateFlashcardsDto,
     @Request() req: any,
   ) {
-    return this.flashcardService.generate(dto, req.user.sub, req.user.role);
+    return this.flashcardService.generate(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */
@@ -114,6 +114,6 @@ export class AiStudentController {
     @Body() dto: GeneratePracticeQuizDto,
     @Request() req: any,
   ) {
-    return this.practiceQuizService.generate(dto, req.user.sub, req.user.role);
+    return this.practiceQuizService.generate(dto, req.user.id, req.user.role);
   }
 }

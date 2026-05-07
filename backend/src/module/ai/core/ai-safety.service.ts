@@ -103,18 +103,24 @@ export class AiSafetyService {
 
     // Log usage to database
     try {
-      await this.prisma.aiUsageLog.create({
-        data: {
-          userId,
-          module,
-          model: response.model,
-          provider: response.provider,
-          promptTokens: response.promptTokens,
-          completionTokens: response.completionTokens,
-          latencyMs: response.latencyMs,
-          isFlagged: flagged,
-        },
-      });
+      if (!userId) {
+        this.logger.warn(
+          `Skipping AI usage log: userId is undefined for module "${module}"`,
+        );
+      } else {
+        await this.prisma.aiUsageLog.create({
+          data: {
+            userId,
+            module,
+            model: response.model,
+            provider: response.provider,
+            promptTokens: response.promptTokens,
+            completionTokens: response.completionTokens,
+            latencyMs: response.latencyMs,
+            isFlagged: flagged,
+          },
+        });
+      }
     } catch (err) {
       this.logger.error('Failed to log AI usage', err);
     }

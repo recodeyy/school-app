@@ -62,7 +62,7 @@ export class AiAdminController {
     @Body() dto: GenerateNoticeDto,
     @Request() req: any,
   ) {
-    return this.noticeService.generate(dto, req.user.sub, req.user.role);
+    return this.noticeService.generate(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */
@@ -97,7 +97,7 @@ export class AiAdminController {
   ) {
     return this.parentMessageService.generate(
       dto,
-      req.user.sub,
+      req.user.id,
       req.user.role,
     );
   }

@@ -55,7 +55,7 @@ export class AiAnalyticsController {
   ) {
     return this.progressSummaryService.generate(
       dto,
-      req.user.sub,
+      req.user.id,
       req.user.role,
     );
   }
@@ -80,7 +80,7 @@ export class AiAnalyticsController {
   ) {
     return this.attendanceRiskService.analyze(
       dto,
-      req.user.sub,
+      req.user.id,
       req.user.role,
     );
   }
@@ -103,6 +103,6 @@ export class AiAnalyticsController {
     @Body() dto: DetectWeakSubjectsDto,
     @Request() req: any,
   ) {
-    return this.weakSubjectService.detect(dto, req.user.sub, req.user.role);
+    return this.weakSubjectService.detect(dto, req.user.id, req.user.role);
   }
 }

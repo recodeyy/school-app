@@ -59,7 +59,7 @@ export class AiTeacherController {
     @Body() dto: GenerateHomeworkDto,
     @Request() req: any,
   ) {
-    return this.homeworkService.generate(dto, req.user.sub, req.user.role);
+    return this.homeworkService.generate(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */
@@ -77,7 +77,7 @@ export class AiTeacherController {
   @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   @ApiTooManyRequestsResponse({ description: 'AI usage limit exceeded' })
   async generateQuiz(@Body() dto: GenerateQuizDto, @Request() req: any) {
-    return this.quizService.generate(dto, req.user.sub, req.user.role);
+    return this.quizService.generate(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */
@@ -98,7 +98,7 @@ export class AiTeacherController {
     @Body() dto: GenerateLessonPlanDto,
     @Request() req: any,
   ) {
-    return this.lessonPlanService.generate(dto, req.user.sub, req.user.role);
+    return this.lessonPlanService.generate(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */
@@ -119,7 +119,7 @@ export class AiTeacherController {
     @Body() dto: GenerateQuestionPaperDto,
     @Request() req: any,
   ) {
-    return this.questionPaperService.generate(dto, req.user.sub, req.user.role);
+    return this.questionPaperService.generate(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */
@@ -142,7 +142,7 @@ export class AiTeacherController {
   ) {
     return this.reportCardRemarksService.generate(
       dto,
-      req.user.sub,
+      req.user.id,
       req.user.role,
     );
   }
