@@ -4,4 +4,3 @@ export * from './holidays.controller.js';
 export * from './periods.controller.js';
 export * from './sections.controller.js';
 export * from './subjects.controller.js';
-

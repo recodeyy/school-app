@@ -63,7 +63,7 @@ export class SchoolSetupService {
           ? new Date(row.endDate)
           : new Date(row.end_date),
       isActive: row.is_active ?? row.isActive ?? false,
-    } as AcademicYear;
+    };
   }
 
   /* ---------------- Academic Years ---------------- */
@@ -91,7 +91,7 @@ export class SchoolSetupService {
         }) as Promise<AcademicYear>;
       }
 
-      return this.prisma.academicYear.create({ data }) as Promise<AcademicYear>;
+      return this.prisma.academicYear.create({ data });
     }
 
     // Fallback: use raw SQL queries. This is only for runtime resilience when the Prisma client hasn't been regenerated
@@ -347,8 +347,8 @@ export class SchoolSetupService {
   }
 
   async listSubjects(classId?: string): Promise<Subject[]> {
-    const where = classId ? { where: { classId } } : {};
-    return this.prisma.subject.findMany(where as any);
+    const where: any = classId ? { classId } : {};
+    return this.prisma.subject.findMany({ where });
   }
 
   async getSubject(id: string): Promise<Subject> {
@@ -365,7 +365,7 @@ export class SchoolSetupService {
     return this.prisma.subject.update({
       where: { id },
       data,
-    }) as Promise<Subject>;
+    });
   }
 
   async deleteSubject(id: string): Promise<Subject> {
@@ -416,8 +416,8 @@ export class SchoolSetupService {
   }
 
   async listPeriods(classId?: string): Promise<TimetableSlot[]> {
-    const where = classId ? { where: { classId } } : {};
-    return this.prisma.timetableSlot.findMany(where as any);
+    const where: any = classId ? { classId } : {};
+    return this.prisma.timetableSlot.findMany({ where });
   }
 
   async getPeriod(id: string): Promise<TimetableSlot> {
@@ -444,7 +444,7 @@ export class SchoolSetupService {
     return this.prisma.timetableSlot.update({
       where: { id },
       data: updateData,
-    }) as Promise<TimetableSlot>;
+    });
   }
 
   async deletePeriod(id: string): Promise<TimetableSlot> {

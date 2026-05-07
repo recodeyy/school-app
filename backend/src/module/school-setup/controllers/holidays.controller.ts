@@ -59,7 +59,7 @@ export class HolidaysController {
     @Param('id') id: string,
     @Body() dto: UpdateHolidayDto,
   ): Promise<Holiday> {
-    return this.svc.updateHoliday(id, dto as any);
+    return this.svc.updateHoliday(id, dto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

@@ -282,7 +282,7 @@ export class UsersService {
           email: dto.email,
           phone: dto.phone,
           passwordHash,
-          role: staffRole as UserRole,
+          role: staffRole,
           isActive: true,
         },
         include: { studentProfile: true, teacherProfile: true },
@@ -316,10 +316,10 @@ export class UsersService {
     let failed = 0;
 
     try {
-      const records = csvParse(csvData, {
+      const records: any[] = csvParse(csvData, {
         columns: true,
         skip_empty_lines: true,
-      }) as ImportStudentDto[];
+      });
 
       for (let i = 0; i < records.length; i++) {
         try {
@@ -395,10 +395,10 @@ export class UsersService {
     let failed = 0;
 
     try {
-      const records = csvParse(csvData, {
+      const records: any[] = csvParse(csvData, {
         columns: true,
         skip_empty_lines: true,
-      }) as Array<Record<string, string>>;
+      });
 
       for (let i = 0; i < records.length; i++) {
         try {
@@ -457,10 +457,10 @@ export class UsersService {
     let failed = 0;
 
     try {
-      const records = csvParse(csvData, {
+      const records: any[] = csvParse(csvData, {
         columns: true,
         skip_empty_lines: true,
-      }) as ImportTeacherDto[];
+      });
 
       for (let i = 0; i < records.length; i++) {
         try {
@@ -523,10 +523,10 @@ export class UsersService {
     let failed = 0;
 
     try {
-      const records = csvParse(csvData, {
+      const records: any[] = csvParse(csvData, {
         columns: true,
         skip_empty_lines: true,
-      }) as Array<Record<string, string>>;
+      });
 
       for (let i = 0; i < records.length; i++) {
         try {

@@ -116,6 +116,25 @@ model Subscription {
   @@schema("public")
 }
 
+enum HomeworkStatus {
+  PENDING    @map("pending")
+  SUBMITTED  @map("submitted")
+  GRADED     @map("graded")
+  LATE       @map("late")
+
+  @@schema("public")
+}
+
+enum FeeStatus {
+  PENDING    @map("pending")
+  PAID       @map("paid")
+  PARTIAL    @map("partial")
+  OVERDUE    @map("overdue")
+  WAIVED     @map("waived")
+
+  @@schema("public")
+}
+
 model User {
   id           String      @id @default(uuid()) @db.Uuid
   name         String      @db.VarChar(200)
@@ -141,6 +160,11 @@ model User {
   messagesSent            ChatMessage[]         @relation("MessageSender")
   filesUploaded           StoredFile[]          @relation("FileUploader")
   notificationsReceived   Notification[]        @relation("NotificationRecipient")
+  homeworkCreated         Homework[]            @relation("HomeworkCreatedBy")
+  homeworkSubmissions     HomeworkSubmission[]   @relation("HomeworkSubmittedBy")
+  noticesCreated          Notice[]              @relation("NoticeCreatedBy")
+  feesAsStudent           Fee[]                 @relation("FeeStudent")
+  feePayments             FeePayment[]          @relation("FeePaymentRecordedBy")
 
   @@map("users")
   @@schema("tenant")
@@ -181,6 +205,8 @@ model SchoolClass {
   sections        Section[]
   // optional relation field back to AcademicYear
   academicYearRel AcademicYear? @relation("AcademicYearClasses", fields: [academicYearId], references: [id], onDelete: SetNull)
+  homework        Homework[]
+  notices         Notice[]
 
   @@index([classTeacherId])
   @@map("classes")
@@ -241,6 +267,7 @@ model Subject {
   timetableSlots TimetableSlot[]
   attendanceSessions AttendanceSession[]
   results      Result[]
+  homework     Homework[]
 
   @@index([classId])
   @@index([teacherId])
@@ -436,5 +463,109 @@ model Notification {
 
   @@index([recipientId, isRead])
   @@map("notifications")
+  @@schema("tenant")
+}
+
+model Homework {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String   @db.VarChar(300)
+  description String?
+  classId     String   @map("class_id") @db.Uuid
+  subjectId   String   @map("subject_id") @db.Uuid
+  createdById String   @map("created_by") @db.Uuid
+  dueDate     DateTime @map("due_date") @db.Date
+  attachments Json?
+  isPublished Boolean  @default(true) @map("is_published")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  schoolClass SchoolClass        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject     Subject            @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdBy   User               @relation("HomeworkCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  submissions HomeworkSubmission[]
+
+  @@index([classId, dueDate])
+  @@index([subjectId])
+  @@index([createdById])
+  @@map("homework")
+  @@schema("tenant")
+}
+
+model HomeworkSubmission {
+  id         String         @id @default(uuid()) @db.Uuid
+  homeworkId String         @map("homework_id") @db.Uuid
+  studentId  String         @map("student_id") @db.Uuid
+  status     HomeworkStatus @default(PENDING)
+  content    String?
+  attachments Json?
+  grade      String?        @db.VarChar(10)
+  feedback   String?
+  submittedAt DateTime?     @map("submitted_at") @db.Timestamptz(6)
+  gradedAt    DateTime?     @map("graded_at") @db.Timestamptz(6)
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  homework Homework @relation(fields: [homeworkId], references: [id], onDelete: Cascade)
+  student  User     @relation("HomeworkSubmittedBy", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([homeworkId, studentId])
+  @@index([studentId])
+  @@map("homework_submissions")
+  @@schema("tenant")
+}
+
+model Notice {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String   @db.VarChar(300)
+  content     String
+  targetRoles String[] @map("target_roles")
+  classId     String?  @map("class_id") @db.Uuid
+  createdById String   @map("created_by") @db.Uuid
+  isPinned    Boolean  @default(false) @map("is_pinned")
+  isActive    Boolean  @default(true) @map("is_active")
+  expiresAt   DateTime? @map("expires_at") @db.Timestamptz(6)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  createdBy   User        @relation("NoticeCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  schoolClass SchoolClass? @relation(fields: [classId], references: [id], onDelete: SetNull)
+
+  @@index([createdById])
+  @@index([classId])
+  @@map("notices")
+  @@schema("tenant")
+}
+
+model Fee {
+  id          String    @id @default(uuid()) @db.Uuid
+  studentId   String    @map("student_id") @db.Uuid
+  title       String    @db.VarChar(300)
+  description String?
+  amount      Decimal   @db.Decimal(10, 2)
+  dueDate     DateTime  @map("due_date") @db.Date
+  status      FeeStatus @default(PENDING)
+  paidAmount  Decimal   @default(0) @map("paid_amount") @db.Decimal(10, 2)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  student  User         @relation("FeeStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  payments FeePayment[]
+
+  @@index([studentId, status])
+  @@map("fees")
+  @@schema("tenant")
+}
+
+model FeePayment {
+  id            String   @id @default(uuid()) @db.Uuid
+  feeId         String   @map("fee_id") @db.Uuid
+  amount        Decimal  @db.Decimal(10, 2)
+  paymentMethod String?  @map("payment_method") @db.VarChar(50)
+  transactionId String?  @map("transaction_id") @db.VarChar(200)
+  recordedById  String   @map("recorded_by") @db.Uuid
+  paidAt        DateTime @default(now()) @map("paid_at") @db.Timestamptz(6)
+
+  fee        Fee  @relation(fields: [feeId], references: [id], onDelete: Cascade)
+  recordedBy User @relation("FeePaymentRecordedBy", fields: [recordedById], references: [id], onDelete: Restrict)
+
+  @@index([feeId])
+  @@index([recordedById])
+  @@map("fee_payments")
   @@schema("tenant")
 }

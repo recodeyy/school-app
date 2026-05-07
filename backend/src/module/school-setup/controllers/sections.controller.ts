@@ -34,7 +34,7 @@ export class SectionsController {
   @Post()
   @ApiOperation({ summary: 'Create section' })
   async create(@Body() dto: CreateSectionDto): Promise<Section> {
-    return this.svc.createSection(dto as any);
+    return this.svc.createSection(dto);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -43,7 +43,7 @@ export class SectionsController {
   @ApiOperation({ summary: 'List sections, optionally filter by classId' })
   @Get()
   async list(@Query('classId') classId?: string): Promise<Section[]> {
-    return this.svc.listSections(classId as any);
+    return this.svc.listSections(classId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -61,7 +61,7 @@ export class SectionsController {
     @Param('id') id: string,
     @Body() dto: UpdateSectionDto,
   ): Promise<Section> {
-    return this.svc.updateSection(id, dto as any);
+    return this.svc.updateSection(id, dto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

@@ -33,12 +33,12 @@ export class AuthService {
     if (!user) return null;
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) return null;
-    const { passwordHash, ...result } = user as User;
+    const { passwordHash, ...result } = user;
     return result;
   }
 
   async getTokens(user: User) {
-    const payload = { sub: user.id as string, role: user.role };
+    const payload = { sub: user.id, role: user.role };
 
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET || 'CHANGE_ME',
@@ -66,7 +66,7 @@ export class AuthService {
     try {
       const payload = this.jwtService.verify(refreshToken, {
         secret: process.env.JWT_REFRESH_SECRET || 'CHANGE_ME_REFRESH',
-      }) as any;
+      });
 
       if (!payload?.sub)
         throw new UnauthorizedException('Invalid refresh token');
@@ -139,7 +139,7 @@ export class AuthService {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { passwordHash, ...rest } = user as User;
+    const { passwordHash, ...rest } = user;
     return rest;
   }
 }

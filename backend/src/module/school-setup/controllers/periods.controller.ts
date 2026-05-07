@@ -34,7 +34,7 @@ export class PeriodsController {
   @Post()
   @ApiOperation({ summary: 'Create period (timetable slot)' })
   async create(@Body() dto: CreatePeriodDto): Promise<TimetableSlot> {
-    return this.svc.createPeriod(dto as any);
+    return this.svc.createPeriod(dto);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -43,7 +43,7 @@ export class PeriodsController {
   @ApiOperation({ summary: 'List periods, optionally filter by classId' })
   @Get()
   async list(@Query('classId') classId?: string): Promise<TimetableSlot[]> {
-    return this.svc.listPeriods(classId as any);
+    return this.svc.listPeriods(classId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -61,7 +61,7 @@ export class PeriodsController {
     @Param('id') id: string,
     @Body() dto: UpdatePeriodDto,
   ): Promise<TimetableSlot> {
-    return this.svc.updatePeriod(id, dto as any);
+    return this.svc.updatePeriod(id, dto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

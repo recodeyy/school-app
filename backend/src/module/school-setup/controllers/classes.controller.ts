@@ -28,7 +28,7 @@ export class ClassesController {
   @Post()
   @ApiOperation({ summary: 'Create a class' })
   async create(@Body() dto: CreateClassDto): Promise<SchoolClass> {
-    return this.svc.createClass(dto as any);
+    return this.svc.createClass(dto);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -54,7 +54,7 @@ export class ClassesController {
     @Param('id') id: string,
     @Body() dto: UpdateClassDto,
   ): Promise<SchoolClass> {
-    return this.svc.updateClass(id, dto as any);
+    return this.svc.updateClass(id, dto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

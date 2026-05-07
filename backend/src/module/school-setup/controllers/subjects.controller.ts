@@ -34,7 +34,7 @@ export class SubjectsController {
   @Post()
   @ApiOperation({ summary: 'Create subject' })
   async create(@Body() dto: CreateSubjectDto): Promise<Subject> {
-    return this.svc.createSubject(dto as any);
+    return this.svc.createSubject(dto);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -43,7 +43,7 @@ export class SubjectsController {
   @ApiOperation({ summary: 'List subjects, optionally filter by classId' })
   @Get()
   async list(@Query('classId') classId?: string): Promise<Subject[]> {
-    return this.svc.listSubjects(classId as any);
+    return this.svc.listSubjects(classId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -61,7 +61,7 @@ export class SubjectsController {
     @Param('id') id: string,
     @Body() dto: UpdateSubjectDto,
   ): Promise<Subject> {
-    return this.svc.updateSubject(id, dto as any);
+    return this.svc.updateSubject(id, dto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
