@@ -165,6 +165,7 @@ model User {
   noticesCreated          Notice[]              @relation("NoticeCreatedBy")
   feesAsStudent           Fee[]                 @relation("FeeStudent")
   feePayments             FeePayment[]          @relation("FeePaymentRecordedBy")
+  aiUsageLogs             AiUsageLog[]          @relation("AiUsageLogs")
 
   @@map("users")
   @@schema("tenant")
@@ -466,6 +467,7 @@ model Notification {
   @@schema("tenant")
 }
 
+
 model Homework {
   id          String   @id @default(uuid()) @db.Uuid
   title       String   @db.VarChar(300)
@@ -567,5 +569,37 @@ model FeePayment {
   @@index([feeId])
   @@index([recordedById])
   @@map("fee_payments")
+
+model AiUsageLog {
+  id               String   @id @default(uuid()) @db.Uuid
+  userId           String   @map("user_id") @db.Uuid
+  module           String   @db.VarChar(50)
+  model            String   @db.VarChar(100)
+  provider         String   @db.VarChar(30)
+  promptTokens     Int      @map("prompt_tokens")
+  completionTokens Int      @map("completion_tokens")
+  latencyMs        Int      @map("latency_ms")
+  isFlagged        Boolean  @default(false) @map("is_flagged")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user User @relation("AiUsageLogs", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, module])
+  @@index([createdAt])
+  @@map("ai_usage_logs")
+  @@schema("tenant")
+}
+
+model AiCreditAllocation {
+  id           String   @id @default(uuid()) @db.Uuid
+  role         UserRole
+  module       String   @db.VarChar(50)
+  dailyLimit   Int      @map("daily_limit")
+  monthlyLimit Int      @map("monthly_limit")
+  isActive     Boolean  @default(true) @map("is_active")
+
+  @@unique([role, module])
+  @@map("ai_credit_allocations")
+
   @@schema("tenant")
 }
