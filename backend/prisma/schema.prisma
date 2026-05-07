@@ -569,6 +569,8 @@ model FeePayment {
   @@index([feeId])
   @@index([recordedById])
   @@map("fee_payments")
+  @@schema("tenant")
+}
 
 model AiUsageLog {
   id               String   @id @default(uuid()) @db.Uuid
