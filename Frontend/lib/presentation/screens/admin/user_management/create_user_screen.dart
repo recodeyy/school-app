@@ -4,6 +4,7 @@ import '../../../../core/constants/app_theme.dart';
 import '../../../../core/providers/providers.dart';
 import '../../../../core/constants/user_role.dart';
 import '../../../../data/models/school_model.dart';
+import '../../../../core/utils/validation_service.dart';
 
 class CreateUserScreen extends ConsumerStatefulWidget {
   const CreateUserScreen({super.key});
@@ -148,25 +149,26 @@ class _CreateUserScreenState extends ConsumerState<CreateUserScreen> {
                     TextFormField(
                       controller: _nameController,
                       decoration: const InputDecoration(labelText: 'Full Name'),
-                      validator: (v) => v!.isEmpty ? 'Required' : null,
+                      validator: (v) => ValidationService.validateRequired(v, 'Full Name'),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(labelText: 'Email'),
-                      validator: (v) => v!.isEmpty ? 'Required' : null,
+                      validator: ValidationService.validateEmail,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(labelText: 'Password'),
-                      validator: (v) => v!.length < 6 ? 'Min 6 characters' : null,
+                      validator: ValidationService.validatePassword,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _phoneController,
                       decoration: const InputDecoration(labelText: 'Phone (Optional)'),
+                      validator: ValidationService.validatePhone,
                     ),
                     const SizedBox(height: 24),
                     const Divider(),

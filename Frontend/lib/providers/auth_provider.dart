@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/models/auth_model.dart';
-import '../data/services/auth_service.dart';
 import '../core/providers/service_providers.dart';
 
 class AuthState {
@@ -29,26 +28,31 @@ class AuthState {
   }
 }
 
-class AuthNotifier extends StateNotifier<AuthState> {
-  final AuthService _authService;
-
-  AuthNotifier(this._authService) : super(AuthState()) {
+class AuthNotifier extends Notifier<AuthState> {
+  @override
+  AuthState build() {
     _loadUserFromPrefs();
+    return AuthState();
   }
 
   Future<void> _loadUserFromPrefs() async {
-    final isLoggedIn = await _authService.isLoggedIn();
+    final service = ref.read(authServiceProvider);
+    final isLoggedIn = await service.isLoggedIn();
     if (isLoggedIn) {
-      // In a real app, you'd fetch user info from prefs or API
-      // state = state.copyWith(user: fetchedUser);
+      try {
+        final profile = await service.getProfile();
+        state = state.copyWith(user: profile);
+      } catch (_) {
+        await service.logout();
+      }
     }
   }
 
   Future<bool> login(String email, String password) async {
     state = state.copyWith(isLoading: true, error: null);
-
     try {
-      final response = await _authService.login(email, password);
+      final service = ref.read(authServiceProvider);
+      final response = await service.login(email, password);
       state = state.copyWith(user: response.user, isLoading: false);
       return true;
     } catch (e) {
@@ -58,12 +62,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> logout() async {
-    await _authService.logout();
+    await ref.read(authServiceProvider).logout();
     state = AuthState();
   }
 }
 
-final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final authService = ref.watch(authServiceProvider);
-  return AuthNotifier(authService);
+final authProvider = NotifierProvider<AuthNotifier, AuthState>(() {
+  return AuthNotifier();
 });

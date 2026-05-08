@@ -82,29 +82,35 @@ class _ManageClassesScreenState extends ConsumerState<ManageClassesScreen> {
       appBar: AppBar(title: const Text('Manage Classes')),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddClassDialog,
-        child: const Icon(Icons.add),
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _classes.isEmpty
               ? const Center(child: Text('No classes found'))
               : ListView.builder(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(20),
                   itemCount: _classes.length,
                   itemBuilder: (context, index) {
                     final cls = _classes[index];
-                    return Card(
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
+                      ),
                       child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: AppColors.primary.withValues(alpha: 0.1),
-                          child: const Icon(Icons.class_, color: AppColors.primary),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        leading: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
+                          child: const Icon(Icons.class_rounded, color: AppColors.primary),
                         ),
-                        title: Text(cls.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(cls.academicYear ?? 'N/A'),
-                        trailing: const Icon(Icons.chevron_right),
-                        onTap: () {
-                          // Could navigate to manage sections for this class
-                        },
+                        title: Text(cls.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                        subtitle: Text('Year: ${cls.academicYear ?? 'Current'}', style: const TextStyle(color: AppColors.textSecondary)),
+                        trailing: const Icon(Icons.chevron_right, color: AppColors.textMuted),
                       ),
                     );
                   },

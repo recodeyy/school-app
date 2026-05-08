@@ -57,4 +57,9 @@ class AuthService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(AppConstants.userRoleKey);
   }
+
+  Future<User> getProfile() async {
+    final response = await _apiService.get(ApiConstants.profile);
+    return User.fromJson(response);
+  }
 }
