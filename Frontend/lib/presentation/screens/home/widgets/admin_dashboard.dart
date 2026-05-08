@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../data/models/dashboard_model.dart';
 import '../../../../core/constants/app_theme.dart';
+import '../../admin/school_setup/setup_dashboard_screen.dart';
 import '../../../../core/providers/providers.dart';
+import '../../admin/user_management/user_list_screen.dart';
+import '../../admin/import/excel_import_screen.dart';
+import '../../admin/analytics/ai_insights_screen.dart';
+import '../../admin/fees/fee_management_screen.dart';
 
 class AdminDashboard extends ConsumerStatefulWidget {
   const AdminDashboard({super.key});
@@ -103,13 +108,23 @@ class _AdminDashboardState extends ConsumerState<AdminDashboard> {
                   'User Management',
                   'Manage students, teachers & staff',
                   Icons.person_add_outlined,
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const UserListScreen()),
+                    );
+                  },
                 ),
                 _buildQuickAction(
                   'School Setup',
                   'Classes, subjects, and timetable',
                   Icons.settings_outlined,
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SetupDashboardScreen()),
+                    );
+                  },
                 ),
                 _buildQuickAction(
                   'Attendance Reports',
@@ -121,8 +136,37 @@ class _AdminDashboardState extends ConsumerState<AdminDashboard> {
                   'Fee Management',
                   'Invoices and payments',
                   Icons.payment_outlined,
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const FeeManagementScreen()),
+                    );
+                  },
                 ),
+                _buildQuickAction(
+                  'Bulk Import',
+                  'Import users via CSV data',
+                  Icons.upload_file_outlined,
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ExcelImportScreen()),
+                    );
+                  },
+                ),
+                _buildQuickAction(
+                  'AI Insights',
+                  'AI powered student analytics',
+                  Icons.auto_awesome_outlined,
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AiInsightsScreen()),
+                    );
+                  },
+                ),
+
+
               ],
             ),
           ),

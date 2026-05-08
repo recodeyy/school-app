@@ -11,6 +11,8 @@ import '../../data/services/notification_service.dart';
 import '../../data/services/dashboard_service.dart';
 import '../../data/services/school_setup_service.dart';
 import '../../data/services/timetable_service.dart';
+import '../../data/services/excel_import_service.dart';
+import '../../data/services/ai_service.dart';
 
 final apiServiceProvider = Provider((ref) => ApiService());
 
@@ -67,4 +69,14 @@ final schoolSetupServiceProvider = Provider((ref) {
 final timetableServiceProvider = Provider((ref) {
   final api = ref.watch(apiServiceProvider);
   return TimetableService(api);
+});
+
+final excelImportServiceProvider = Provider((ref) {
+  final api = ref.watch(apiServiceProvider);
+  return ExcelImportService(api);
+});
+
+final aiServiceProvider = Provider((ref) {
+  final api = ref.watch(apiServiceProvider);
+  return AiService(api);
 });

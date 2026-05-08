@@ -36,6 +36,7 @@ class Subject {
   final String classId;
   final String? teacherId;
   final String? teacherName;
+  final String? className;
 
   Subject({
     required this.id,
@@ -44,6 +45,7 @@ class Subject {
     required this.classId,
     this.teacherId,
     this.teacherName,
+    this.className,
   });
 
   factory Subject.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,7 @@ class Subject {
       classId: json['classId'] ?? '',
       teacherId: json['teacherId'],
       teacherName: json['teacher']?['name'],
+      className: json['class']?['name'],
     );
   }
 }

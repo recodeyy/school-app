@@ -6,6 +6,7 @@ import '../../../../core/providers/providers.dart';
 import '../../attendance/mark_attendance_screen.dart';
 import '../../homework/create_homework_screen.dart';
 import '../../marks/upload_marks_screen.dart';
+import '../../timetable/timetable_screen.dart';
 
 class TeacherDashboard extends ConsumerStatefulWidget {
   const TeacherDashboard({super.key});
@@ -139,7 +140,12 @@ class _TeacherDashboardState extends ConsumerState<TeacherDashboard> {
                   'Timetable',
                   'View your teaching schedule',
                   Icons.calendar_today_outlined,
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const TimetableScreen()),
+                    );
+                  },
                 ),
               ],
             ),

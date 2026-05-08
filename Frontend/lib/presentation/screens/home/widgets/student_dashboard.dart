@@ -7,6 +7,7 @@ import '../../attendance/student_attendance_screen.dart';
 import '../../homework/student_homework_screen.dart';
 import '../../marks/student_results_screen.dart';
 import '../../timetable/student_timetable_screen.dart';
+import '../../fees/fee_list_screen.dart';
 
 class StudentDashboard extends ConsumerStatefulWidget {
   const StudentDashboard({super.key});
@@ -111,7 +112,12 @@ class _StudentDashboardState extends ConsumerState<StudentDashboard> {
                       MaterialPageRoute(builder: (context) => const StudentTimetableScreen()),
                     );
                   }),
-                _buildMenuTile('Fees', Icons.payment, () {}),
+                _buildMenuTile('Fees', Icons.payment, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const FeeListScreen()),
+                    );
+                  }),
               ],
             ),
           ),
