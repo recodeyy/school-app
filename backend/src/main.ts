@@ -13,6 +13,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
+app.enableCors({
+    origin: true,
+    credentials: true,
+  });
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('School App API')
