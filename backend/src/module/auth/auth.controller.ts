@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Post,
+  Get,
   Request,
   UnauthorizedException,
   UseGuards,
@@ -67,6 +68,16 @@ export class AuthController {
   @Post('refresh')
   async refresh(@Body() dto: RefreshTokenDto) {
     return this.authService.refreshTokens(dto.refreshToken);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current user profile' })
+  @ApiOkResponse({ description: 'User profile details' })
+  @ApiUnauthorizedResponse({ description: 'Not authenticated' })
+  @Get('profile')
+  async getProfile(@Request() req: any) {
+    return this.authService.getProfile(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

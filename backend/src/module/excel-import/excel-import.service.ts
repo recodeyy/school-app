@@ -28,19 +28,27 @@ export class ExcelImportService {
 
     // Convert records to CSV format string so we can reuse the robust UsersService logic
     // This is a quick way to reuse the complex CSV import logic without duplicating it
-    const csvData = xlsx.utils.sheet_to_csv(xlsx.read(buffer, { type: 'buffer' }).Sheets[xlsx.read(buffer, { type: 'buffer' }).SheetNames[0]]);
+    const csvData = xlsx.utils.sheet_to_csv(
+      xlsx.read(buffer, { type: 'buffer' }).Sheets[
+        xlsx.read(buffer, { type: 'buffer' }).SheetNames[0]
+      ],
+    );
     return this.usersService.importStudentsFromCSV(csvData);
   }
 
   async importParents(buffer: Buffer) {
     const workbook = xlsx.read(buffer, { type: 'buffer' });
-    const csvData = xlsx.utils.sheet_to_csv(workbook.Sheets[workbook.SheetNames[0]]);
+    const csvData = xlsx.utils.sheet_to_csv(
+      workbook.Sheets[workbook.SheetNames[0]],
+    );
     return this.usersService.importParentsFromCSV(csvData);
   }
 
   async importTeachers(buffer: Buffer) {
     const workbook = xlsx.read(buffer, { type: 'buffer' });
-    const csvData = xlsx.utils.sheet_to_csv(workbook.Sheets[workbook.SheetNames[0]]);
+    const csvData = xlsx.utils.sheet_to_csv(
+      workbook.Sheets[workbook.SheetNames[0]],
+    );
     return this.usersService.importTeachersFromCSV(csvData);
   }
 

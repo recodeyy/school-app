@@ -1,4 +1,4 @@
-import {  Module , HttpException, HttpStatus } from '@nestjs/common';
+import { Module, HttpException, HttpStatus } from '@nestjs/common';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 

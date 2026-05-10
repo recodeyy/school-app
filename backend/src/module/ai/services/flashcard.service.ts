@@ -1,4 +1,10 @@
-import {  Injectable, Logger, NotFoundException , HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { AiCreditService } from '../core/ai-credit.service.js';
 import type { ChatMessage } from '../core/ai-provider.interface.js';
@@ -33,7 +39,11 @@ export class FlashcardService {
     const messages: ChatMessage[] = [
       {
         role: 'system',
-        content: this.aiSafety.buildSystemPreamble(MODULE_NAME, true, subject.schoolClass.name),
+        content: this.aiSafety.buildSystemPreamble(
+          MODULE_NAME,
+          true,
+          subject.schoolClass.name,
+        ),
       },
       {
         role: 'user',
@@ -75,7 +85,10 @@ Respond ONLY in valid JSON:
       return JSON.parse(content);
     } catch {
       this.logger.warn('AI returned non-JSON for flashcards');
-      throw new HttpException('The AI generated an invalid response format. Please try again.', HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        'The AI generated an invalid response format. Please try again.',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
   }
 }

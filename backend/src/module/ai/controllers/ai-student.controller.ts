@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -49,7 +43,9 @@ export class AiStudentController {
       'Student asks a question and gets an age-appropriate, guided explanation. AI does not give direct exam answers.',
   })
   @ApiBody({ type: AskDoubtDto })
-  @ApiOkResponse({ description: 'AI explanation with examples and related topics' })
+  @ApiOkResponse({
+    description: 'AI explanation with examples and related topics',
+  })
   @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   @ApiTooManyRequestsResponse({ description: 'AI usage limit exceeded' })
   async askDoubt(@Body() dto: AskDoubtDto, @Request() req: any) {
@@ -63,7 +59,8 @@ export class AiStudentController {
   @Roles('STUDENT', 'TEACHER', 'SUPER_ADMIN')
   @ApiOperation({
     summary: 'Generate chapter summary and revision notes',
-    description: 'Creates a concise summary with key points, definitions, and mnemonics.',
+    description:
+      'Creates a concise summary with key points, definitions, and mnemonics.',
   })
   @ApiBody({ type: GenerateChapterSummaryDto })
   @ApiOkResponse({ description: 'Chapter summary in JSON' })
@@ -83,7 +80,8 @@ export class AiStudentController {
   @Roles('STUDENT', 'TEACHER', 'SUPER_ADMIN')
   @ApiOperation({
     summary: 'Generate revision flashcards',
-    description: 'Quick revision cards with front (question) and back (answer) from subject/chapter.',
+    description:
+      'Quick revision cards with front (question) and back (answer) from subject/chapter.',
   })
   @ApiBody({ type: GenerateFlashcardsDto })
   @ApiOkResponse({ description: 'Flashcards in JSON' })

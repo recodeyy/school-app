@@ -57,7 +57,24 @@ export class AuthService {
   }
 
   async login(user: any) {
-    return this.getTokens(user);
+    const tokens = await this.getTokens(user);
+    return {
+      ...tokens,
+      user,
+    };
+  }
+
+  async getProfile(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        studentProfile: true,
+        teacherProfile: true,
+      },
+    });
+    if (!user) throw new UnauthorizedException('User not found');
+    const { passwordHash, ...result } = user;
+    return result;
   }
 
   async refreshTokens(refreshToken: string) {

@@ -98,7 +98,7 @@ export class AiSafetyService {
   ): Promise<{ content: string; isFlagged: boolean }> {
     const flagged = this.isFlagged(response.content);
     const cleanContent = flagged
-      ? 'I\'m unable to provide a response to that request. Please rephrase your question in the context of school education.'
+      ? "I'm unable to provide a response to that request. Please rephrase your question in the context of school education."
       : this.scrubPii(response.content);
 
     // Log usage to database

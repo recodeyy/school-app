@@ -10,7 +10,10 @@ export class GenerateFlashcardsDto {
   @IsString()
   chapter!: string;
 
-  @ApiPropertyOptional({ description: 'Number of flashcards to generate', default: 10 })
+  @ApiPropertyOptional({
+    description: 'Number of flashcards to generate',
+    default: 10,
+  })
   @IsOptional()
   @IsInt()
   @Min(3)

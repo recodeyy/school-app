@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -58,10 +52,7 @@ export class AiAdminController {
   })
   @ApiUnauthorizedResponse({ description: 'Not authenticated' })
   @ApiTooManyRequestsResponse({ description: 'AI usage limit exceeded' })
-  async generateNotice(
-    @Body() dto: GenerateNoticeDto,
-    @Request() req: any,
-  ) {
+  async generateNotice(@Body() dto: GenerateNoticeDto, @Request() req: any) {
     return this.noticeService.generate(dto, req.user.id, req.user.role);
   }
 
@@ -82,8 +73,7 @@ export class AiAdminController {
       example: {
         greeting: 'Dear Mr. Doe,',
         body: 'I hope this message finds you well...',
-        actionRequired:
-          'Please ensure regular attendance going forward.',
+        actionRequired: 'Please ensure regular attendance going forward.',
         closing: 'Thank you for your cooperation.',
         senderPlaceholder: 'Class Teacher, 10-A',
       },
@@ -95,10 +85,6 @@ export class AiAdminController {
     @Body() dto: GenerateParentMessageDto,
     @Request() req: any,
   ) {
-    return this.parentMessageService.generate(
-      dto,
-      req.user.id,
-      req.user.role,
-    );
+    return this.parentMessageService.generate(dto, req.user.id, req.user.role);
   }
 }

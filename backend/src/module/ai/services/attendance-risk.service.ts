@@ -1,4 +1,11 @@
-import { Injectable, Logger, BadRequestException, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  BadRequestException,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { AiCreditService } from '../core/ai-credit.service.js';
 import type { ChatMessage } from '../core/ai-provider.interface.js';
@@ -74,7 +81,8 @@ export class AttendanceRiskService {
           present,
           absent,
           late,
-          attendancePercent: total > 0 ? Math.round((present / total) * 100) : 0,
+          attendancePercent:
+            total > 0 ? Math.round((present / total) * 100) : 0,
         };
       }),
     );
@@ -131,7 +139,10 @@ Respond ONLY in valid JSON:
       return JSON.parse(content);
     } catch {
       this.logger.warn('AI returned non-JSON for attendance risk');
-      throw new HttpException('The AI generated an invalid response format. Please try again.', HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        'The AI generated an invalid response format. Please try again.',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
   }
 }

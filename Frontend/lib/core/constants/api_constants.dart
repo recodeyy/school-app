@@ -1,5 +1,17 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 class ApiConstants {
-  static const String baseUrl = 'http://10.0.2.2:4000/api';
+  static String get baseUrl {
+    if (kIsWeb) {
+      return 'http://localhost:4000/api';
+    }
+    // Cannot use Platform.isAndroid on web, so check kIsWeb first.
+    if (Platform.isAndroid) {
+      return 'http://10.0.2.2:4000/api';
+    }
+    return 'http://localhost:4000/api';
+  }
   static const Duration timeout = Duration(seconds: 30);
 
   static const String login = '/auth/login';

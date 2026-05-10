@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -78,11 +72,7 @@ export class AiAnalyticsController {
     @Body() dto: AnalyzeAttendanceRiskDto,
     @Request() req: any,
   ) {
-    return this.attendanceRiskService.analyze(
-      dto,
-      req.user.id,
-      req.user.role,
-    );
+    return this.attendanceRiskService.analyze(dto, req.user.id, req.user.role);
   }
 
   /* ------------------------------------------------------------------ */

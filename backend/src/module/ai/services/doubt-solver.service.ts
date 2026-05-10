@@ -52,9 +52,7 @@ export class DoubtSolverService {
     if (subjectName) contextParts.push(`Subject: ${subjectName}`);
     if (dto.chapter) contextParts.push(`Chapter: ${dto.chapter}`);
     const contextStr =
-      contextParts.length > 0
-        ? `\nContext:\n${contextParts.join('\n')}`
-        : '';
+      contextParts.length > 0 ? `\nContext:\n${contextParts.join('\n')}` : '';
 
     const safeMessages = this.aiSafety.injectSafetyPreamble(
       [

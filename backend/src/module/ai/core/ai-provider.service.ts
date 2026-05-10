@@ -1,4 +1,10 @@
-import {  Injectable, Logger, OnModuleInit , HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnModuleInit,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import Groq from 'groq-sdk';
 import type {
   ChatMessage,
@@ -31,9 +37,7 @@ export class AiProviderService implements OnModuleInit {
     this.openrouterKey = process.env.OPENROUTER_API_KEY || '';
     this.openrouterModel =
       process.env.OPENROUTER_MODEL || 'meta-llama/llama-3.3-70b-instruct';
-    this.defaultTemperature = parseFloat(
-      process.env.AI_TEMPERATURE || '0.7',
-    );
+    this.defaultTemperature = parseFloat(process.env.AI_TEMPERATURE || '0.7');
     this.defaultMaxTokens = parseInt(
       process.env.AI_MAX_OUTPUT_TOKENS || '2048',
       10,
@@ -138,12 +142,10 @@ export class AiProviderService implements OnModuleInit {
 
     if (!res.ok) {
       const text = await res.text();
-      throw new Error(
-        `OpenRouter ${res.status}: ${text}`,
-      );
+      throw new Error(`OpenRouter ${res.status}: ${text}`);
     }
 
-    const data = (await res.json()) as any;
+    const data = await res.json();
     const choice = data.choices?.[0];
     return {
       content: choice?.message?.content ?? '',

@@ -12,7 +12,8 @@ export class GeneratePracticeQuizDto {
   chapter?: string;
 
   @ApiPropertyOptional({
-    description: 'Weak topics to focus on. If omitted, auto-detected from results.',
+    description:
+      'Weak topics to focus on. If omitted, auto-detected from results.',
     type: [String],
   })
   @IsOptional()

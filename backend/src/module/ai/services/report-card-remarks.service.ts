@@ -1,4 +1,10 @@
-import {  Injectable, Logger, NotFoundException , HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { AiCreditService } from '../core/ai-credit.service.js';
 import type { ChatMessage } from '../core/ai-provider.interface.js';
@@ -122,7 +128,10 @@ Respond ONLY in valid JSON with this exact structure:
       return JSON.parse(content);
     } catch {
       this.logger.warn('AI returned non-JSON for remarks, returning raw');
-      throw new HttpException('The AI generated an invalid response format. Please try again.', HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        'The AI generated an invalid response format. Please try again.',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
   }
 }

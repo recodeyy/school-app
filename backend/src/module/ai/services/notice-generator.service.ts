@@ -82,7 +82,10 @@ Respond ONLY in valid JSON with this exact structure:
       return JSON.parse(content);
     } catch {
       this.logger.warn('AI returned non-JSON for notice, returning raw');
-      throw new HttpException('The AI generated an invalid response format. Please try again.', HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        'The AI generated an invalid response format. Please try again.',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
   }
 }

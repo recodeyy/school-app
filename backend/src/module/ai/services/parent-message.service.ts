@@ -1,4 +1,10 @@
-import {  Injectable, Logger, NotFoundException , HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { AiCreditService } from '../core/ai-credit.service.js';
 import type { ChatMessage } from '../core/ai-provider.interface.js';
@@ -43,7 +49,8 @@ export class ParentMessageService {
       throw new NotFoundException('Student not found');
     }
 
-    const parentName = student.studentProfile.guardian?.name || 'Parent/Guardian';
+    const parentName =
+      student.studentProfile.guardian?.name || 'Parent/Guardian';
     const langMap: Record<string, string> = {
       en: 'English',
       hi: 'Hindi',
@@ -100,8 +107,13 @@ Respond ONLY in valid JSON with this exact structure:
     try {
       return JSON.parse(content);
     } catch {
-      this.logger.warn('AI returned non-JSON for parent message, returning raw');
-      throw new HttpException('The AI generated an invalid response format. Please try again.', HttpStatus.UNPROCESSABLE_ENTITY);
+      this.logger.warn(
+        'AI returned non-JSON for parent message, returning raw',
+      );
+      throw new HttpException(
+        'The AI generated an invalid response format. Please try again.',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
   }
 }

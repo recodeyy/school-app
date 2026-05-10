@@ -16,7 +16,11 @@ export class GenerateChapterSummaryDto {
   @IsString()
   chapter!: string;
 
-  @ApiPropertyOptional({ enum: Language, description: 'Output language', default: Language.ENGLISH })
+  @ApiPropertyOptional({
+    enum: Language,
+    description: 'Output language',
+    default: Language.ENGLISH,
+  })
   @IsOptional()
   @IsEnum(Language)
   language?: Language;

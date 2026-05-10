@@ -6,7 +6,9 @@ export class AskDoubtDto {
   @IsString()
   question!: string;
 
-  @ApiPropertyOptional({ description: 'UUID of the subject (optional context)' })
+  @ApiPropertyOptional({
+    description: 'UUID of the subject (optional context)',
+  })
   @IsOptional()
   @IsUUID()
   subjectId?: string;
