@@ -65,13 +65,13 @@ class StudentDashboardData {
 
   factory StudentDashboardData.fromJson(Map<String, dynamic> json) {
     return StudentDashboardData(
-      name: json['name'],
-      className: json['className'],
-      rollNumber: json['rollNumber'],
-      attendancePercentage: json['attendancePercentage'] ?? 0,
-      pendingHomework: json['pendingHomework'] ?? 0,
-      totalFees: json['totalFees'] ?? 0,
-      paidFees: json['paidFees'] ?? 0,
+      name: json['name'] ?? 'Unknown',
+      className: json['className'] ?? 'N/A',
+      rollNumber: json['rollNumber'] ?? '',
+      attendancePercentage: json['attendancePercentage'] as int? ?? 0,
+      pendingHomework: json['pendingHomework'] as int? ?? 0,
+      totalFees: json['totalFees'] as int? ?? 0,
+      paidFees: json['paidFees'] as int? ?? 0,
       recentNotices: json['recentNotices'] != null
           ? (json['recentNotices'] as List)
               .map((n) => Notice.fromJson(n))
@@ -100,11 +100,11 @@ class TeacherDashboardData {
 
   factory TeacherDashboardData.fromJson(Map<String, dynamic> json) {
     return TeacherDashboardData(
-      name: json['name'],
-      totalClasses: json['totalClasses'] ?? 0,
-      totalStudents: json['totalStudents'] ?? 0,
-      pendingHomework: json['pendingHomework'] ?? 0,
-      pendingAttendance: json['pendingAttendance'] ?? 0,
+      name: json['name'] ?? 'Unknown',
+      totalClasses: json['totalClasses'] as int? ?? 0,
+      totalStudents: json['totalStudents'] as int? ?? 0,
+      pendingHomework: json['pendingHomework'] as int? ?? 0,
+      pendingAttendance: json['pendingAttendance'] as int? ?? 0,
       recentNotices: json['recentNotices'] != null
           ? (json['recentNotices'] as List)
               .map((n) => Notice.fromJson(n))

@@ -8,6 +8,8 @@ import '../../admin/user_management/user_list_screen.dart';
 import '../../admin/import/excel_import_screen.dart';
 import '../../admin/analytics/ai_insights_screen.dart';
 import '../../admin/fees/fee_management_screen.dart';
+import '../../admin/ai_tools/ai_notice_generator_screen.dart';
+import '../../admin/ai_tools/ai_parent_message_screen.dart';
 
 class AdminDashboard extends ConsumerWidget {
   const AdminDashboard({super.key});
@@ -160,25 +162,49 @@ class AdminDashboard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(28),
         boxShadow: [BoxShadow(color: AppColors.primary.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 10))],
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('AI Insights Ready', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                Text('Get automated reports for student performance and risks.', style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () => _nav(context, const AiInsightsScreen()),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: AppColors.primary),
-                  child: const Text('View Insights'),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('AI Admin Center', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    Text('Automate notices, analyze risks, and generate reports.', style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14)),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const Icon(Icons.auto_awesome, color: Colors.white, size: 60),
+            ],
           ),
-          const Icon(Icons.auto_awesome, color: Colors.white, size: 80),
+          const SizedBox(height: 20),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () => _nav(context, const AiInsightsScreen()),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: AppColors.primary),
+                icon: const Icon(Icons.analytics),
+                label: const Text('Insights'),
+              ),
+              ElevatedButton.icon(
+                onPressed: () => _nav(context, const AiNoticeGeneratorScreen()),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: AppColors.primary),
+                icon: const Icon(Icons.campaign),
+                label: const Text('Notices'),
+              ),
+              ElevatedButton.icon(
+                onPressed: () => _nav(context, const AiParentMessageScreen()),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: AppColors.primary),
+                icon: const Icon(Icons.message),
+                label: const Text('Parent Msgs'),
+              ),
+            ],
+          ),
         ],
       ),
     );

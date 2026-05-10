@@ -1,4 +1,5 @@
 import '../../core/constants/api_constants.dart';
+import '../../core/utils/date_helper.dart';
 import '../models/marks_model.dart';
 import 'api_service.dart';
 
@@ -21,7 +22,7 @@ class MarksService {
         'classId': classId,
         'type': type,
         'totalMarks': totalMarks,
-        'examDate': examDate.toIso8601String().split('T')[0],
+        'examDate': DateHelper.formatDateForApi(examDate),
       },
     );
     return Exam.fromJson(response);
@@ -35,7 +36,7 @@ class MarksService {
       ApiConstants.marks,
       queryParams: queryParams,
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Exam.fromJson(json)).toList();
   }
 
@@ -56,7 +57,7 @@ class MarksService {
 
   Future<List<Mark>> getExamMarks(String examId) async {
     final response = await _apiService.get('${ApiConstants.marks}/$examId/marks');
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Mark.fromJson(json)).toList();
   }
 
@@ -64,7 +65,7 @@ class MarksService {
     final response = await _apiService.get(
       '${ApiConstants.marks}/results/$studentId',
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Result.fromJson(json)).toList();
   }
 

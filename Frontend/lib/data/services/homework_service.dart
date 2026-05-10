@@ -1,4 +1,5 @@
 import '../../core/constants/api_constants.dart';
+import '../../core/utils/date_helper.dart';
 import '../models/homework_model.dart';
 import 'api_service.dart';
 
@@ -22,7 +23,7 @@ class HomeworkService {
         'description': description,
         'classId': classId,
         'subjectId': subjectId,
-        'dueDate': dueDate.toIso8601String().split('T')[0],
+        'dueDate': DateHelper.formatDateForApi(dueDate),
         'attachments': attachments,
       },
     );
@@ -43,7 +44,7 @@ class HomeworkService {
       ApiConstants.homework,
       queryParams: queryParams,
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Homework.fromJson(json)).toList();
   }
 
@@ -56,37 +57,36 @@ class HomeworkService {
     final response = await _apiService.get(
       '${ApiConstants.homework}/student/$studentId',
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Homework.fromJson(json)).toList();
   }
 
   Future<HomeworkSubmission> submitHomework({
     required String homeworkId,
-    required String studentId,
     String? content,
     List<String>? attachments,
   }) async {
     final response = await _apiService.post(
-      '${ApiConstants.homework}/$homeworkId/submissions',
+      '${ApiConstants.homework}/$homeworkId/submit',
       body: {
-        'studentId': studentId,
-        'content': content,
-        'attachments': attachments,
+        'content': content ?? '',
+        'attachments': attachments ?? [],
       },
     );
     return HomeworkSubmission.fromJson(response);
   }
 
   Future<HomeworkSubmission> gradeHomework({
-    required String submissionId,
+    required String homeworkId,
+    required String studentId,
     required String grade,
     String? feedback,
   }) async {
-    final response = await _apiService.patch(
-      '${ApiConstants.homework}/submissions/$submissionId',
+    final response = await _apiService.post(
+      '${ApiConstants.homework}/$homeworkId/grade/$studentId',
       body: {
         'grade': grade,
-        'feedback': feedback,
+        'comment': feedback,
       },
     );
     return HomeworkSubmission.fromJson(response);
@@ -94,9 +94,9 @@ class HomeworkService {
 
   Future<List<HomeworkSubmission>> getSubmissions(String homeworkId) async {
     final response = await _apiService.get(
-      '${ApiConstants.homework}/$homeworkId/submissions',
+      '${ApiConstants.homework}/$homeworkId',
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['submissions'] ?? [];
     return data.map((json) => HomeworkSubmission.fromJson(json)).toList();
   }
 }

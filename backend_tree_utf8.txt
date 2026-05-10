@@ -1,0 +1,268 @@
+﻿Folder PATH listing for volume New Volume
+Volume serial number is 1064-80B4
+E:\WORK\SCHOOL-APP\BACKEND\SRC
+|   app.controller.spec.ts
+|   app.controller.ts
+|   app.module.ts
+|   app.service.ts
+|   main.ts
+|   
++---common
+|   |   index.ts
+|   |   
+|   +---dto
+|   |       api-response.dto.ts
+|   |       pagination.dto.ts
+|   |       
+|   \---helpers
+|           date.helper.ts
+|           
++---core
+|   +---env
+|   |       env.validation.ts
+|   |       
+|   \---notifications
+|           index.ts
+|           notification-core.service.ts
+|           
++---generated
+|   \---prisma
+|       |   browser.ts
+|       |   client.ts
+|       |   commonInputTypes.ts
+|       |   enums.ts
+|       |   models.ts
+|       |   
+|       +---internal
+|       |       class.ts
+|       |       prismaNamespace.ts
+|       |       prismaNamespaceBrowser.ts
+|       |       
+|       \---models
+|               AcademicYear.ts
+|               AiCreditAllocation.ts
+|               AiUsageLog.ts
+|               AttendanceRecord.ts
+|               AttendanceSession.ts
+|               ChatGroup.ts
+|               ChatMessage.ts
+|               Exam.ts
+|               Fee.ts
+|               FeePayment.ts
+|               Holiday.ts
+|               Homework.ts
+|               HomeworkSubmission.ts
+|               Notice.ts
+|               Notification.ts
+|               Result.ts
+|               SchoolClass.ts
+|               Section.ts
+|               StoredFile.ts
+|               StudentProfile.ts
+|               Subject.ts
+|               Subscription.ts
+|               TeacherProfile.ts
+|               Tenant.ts
+|               TimetableSlot.ts
+|               User.ts
+|               
+\---module
+    +---ai
+    |   |   ai.module.ts
+    |   |   
+    |   +---controllers
+    |   |       ai-admin.controller.ts
+    |   |       ai-analytics.controller.ts
+    |   |       ai-student.controller.ts
+    |   |       ai-teacher.controller.ts
+    |   |       
+    |   +---core
+    |   |       ai-credit.service.ts
+    |   |       ai-provider.interface.ts
+    |   |       ai-provider.service.ts
+    |   |       ai-safety.service.ts
+    |   |       
+    |   +---dto
+    |   |       attendance-risk.dto.ts
+    |   |       chapter-summary.dto.ts
+    |   |       doubt-solver.dto.ts
+    |   |       flashcard.dto.ts
+    |   |       homework.dto.ts
+    |   |       lesson-plan.dto.ts
+    |   |       notice.dto.ts
+    |   |       parent-message.dto.ts
+    |   |       practice-quiz.dto.ts
+    |   |       progress-summary.dto.ts
+    |   |       question-paper.dto.ts
+    |   |       quiz.dto.ts
+    |   |       report-card-remarks.dto.ts
+    |   |       weak-subject.dto.ts
+    |   |       
+    |   \---services
+    |           attendance-risk.service.ts
+    |           chapter-summary.service.ts
+    |           doubt-solver.service.ts
+    |           flashcard.service.ts
+    |           homework-generator.service.ts
+    |           lesson-plan.service.ts
+    |           notice-generator.service.ts
+    |           parent-message.service.ts
+    |           practice-quiz.service.ts
+    |           progress-summary.service.ts
+    |           question-paper.service.ts
+    |           quiz-generator.service.ts
+    |           report-card-remarks.service.ts
+    |           weak-subject.service.ts
+    |           
+    +---attendance
+    |   |   attendance.controller.ts
+    |   |   attendance.module.ts
+    |   |   attendance.service.ts
+    |   |   
+    |   \---dto
+    |           attendance.dto.ts
+    |           index.ts
+    |           
+    +---auth
+    |   |   auth.controller.spec.ts
+    |   |   auth.controller.ts
+    |   |   auth.module.ts
+    |   |   auth.service.spec.ts
+    |   |   auth.service.ts
+    |   |   
+    |   +---decorators
+    |   |       roles.decorator.ts
+    |   |       
+    |   +---dto
+    |   |       create-user.dto.ts
+    |   |       login.dto.ts
+    |   |       refresh-token.dto.ts
+    |   |       
+    |   +---guards
+    |   |       jwt-auth.guard.ts
+    |   |       roles.guard.ts
+    |   |       
+    |   \---strategies
+    |           jwt.strategy.ts
+    |           local.strategy.ts
+    |           
+    +---dashboard
+    |       dashboard.controller.ts
+    |       dashboard.module.ts
+    |       dashboard.service.ts
+    |       
+    +---excel-import
+    |       excel-import.controller.ts
+    |       excel-import.module.ts
+    |       excel-import.service.ts
+    |       
+    +---fees
+    |   |   fees.controller.ts
+    |   |   fees.module.ts
+    |   |   fees.service.ts
+    |   |   
+    |   \---dto
+    |           fees.dto.ts
+    |           index.ts
+    |           
+    +---homework
+    |   |   homework.controller.ts
+    |   |   homework.module.ts
+    |   |   homework.service.ts
+    |   |   
+    |   \---dto
+    |           homework.dto.ts
+    |           index.ts
+    |           
+    +---marks
+    |   |   marks.controller.ts
+    |   |   marks.module.ts
+    |   |   marks.service.ts
+    |   |   
+    |   \---dto
+    |           index.ts
+    |           marks.dto.ts
+    |           
+    +---notices
+    |   |   notices.controller.ts
+    |   |   notices.module.ts
+    |   |   notices.service.ts
+    |   |   
+    |   \---dto
+    |           index.ts
+    |           notices.dto.ts
+    |           
+    +---notifications
+    |   |   notifications.controller.ts
+    |   |   notifications.module.ts
+    |   |   notifications.service.ts
+    |   |   
+    |   \---dto
+    |           index.ts
+    |           notifications.dto.ts
+    |           
+    +---prisma
+    |       prisma.service.ts
+    |       
+    +---school-setup
+    |   |   school-setup.module.ts
+    |   |   school-setup.service.ts
+    |   |   
+    |   +---controllers
+    |   |       academic-year.controller.ts
+    |   |       classes.controller.ts
+    |   |       holidays.controller.ts
+    |   |       index.ts
+    |   |       periods.controller.ts
+    |   |       sections.controller.ts
+    |   |       subjects.controller.ts
+    |   |       
+    |   \---dto
+    |       +---academic-year
+    |       |       create-academic-year.dto.ts
+    |       |       update-academic-year.dto.ts
+    |       |       
+    |       +---class
+    |       |       create-class.dto.ts
+    |       |       update-class.dto.ts
+    |       |       
+    |       +---holiday
+    |       |       create-holiday.dto.ts
+    |       |       update-holiday.dto.ts
+    |       |       
+    |       +---period
+    |       |       create-period.dto.ts
+    |       |       update-period.dto.ts
+    |       |       
+    |       +---section
+    |       |       create-section.dto.ts
+    |       |       update-section.dto.ts
+    |       |       
+    |       \---subject
+    |               create-subject.dto.ts
+    |               update-subject.dto.ts
+    |               
+    +---timetable
+    |   |   timetable.controller.ts
+    |   |   timetable.module.ts
+    |   |   timetable.service.ts
+    |   |   
+    |   \---dto
+    |           index.ts
+    |           timetable.dto.ts
+    |           
+    \---users
+        |   users.controller.spec.ts
+        |   users.controller.ts
+        |   users.module.ts
+        |   users.service.spec.ts
+        |   users.service.ts
+        |   
+        \---dto
+                create-parent.dto.ts
+                create-staff.dto.ts
+                create-student.dto.ts
+                create-teacher.dto.ts
+                index.ts
+                query-users.dto.ts
+                

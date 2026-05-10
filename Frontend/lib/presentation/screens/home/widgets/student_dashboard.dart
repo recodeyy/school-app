@@ -8,6 +8,10 @@ import '../../homework/student_homework_screen.dart';
 import '../../marks/student_results_screen.dart';
 import '../../timetable/student_timetable_screen.dart';
 import '../../fees/fee_list_screen.dart';
+import '../../student/ai_tools/ai_doubt_solver_screen.dart';
+import '../../student/ai_tools/ai_chapter_summary_screen.dart';
+import '../../student/ai_tools/ai_flashcards_screen.dart';
+import '../../student/ai_tools/ai_practice_quiz_screen.dart';
 
 class StudentDashboard extends ConsumerWidget {
   const StudentDashboard({super.key});
@@ -35,6 +39,10 @@ class StudentDashboard extends ConsumerWidget {
               Text('Learning Hub', style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 20),
               _buildMenuGrid(context),
+              const SizedBox(height: 40),
+              Text('AI Study Tools', style: Theme.of(context).textTheme.headlineMedium),
+              const SizedBox(height: 20),
+              _buildAiToolsGrid(context),
             ],
           ),
         ),
@@ -158,6 +166,23 @@ class StudentDashboard extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildAiToolsGrid(BuildContext context) {
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      crossAxisSpacing: 16,
+      mainAxisSpacing: 16,
+      childAspectRatio: 1.1,
+      children: [
+        _buildMenuCard(context, 'Ask AI Tutor', Icons.psychology, () => _nav(context, const AiDoubtSolverScreen())),
+        _buildMenuCard(context, 'Chapter Summary', Icons.summarize, () => _nav(context, const AiChapterSummaryScreen())),
+        _buildMenuCard(context, 'Flashcards', Icons.style, () => _nav(context, const AiFlashcardsScreen())),
+        _buildMenuCard(context, 'Practice Quiz', Icons.quiz, () => _nav(context, const AiPracticeQuizScreen())),
+      ],
     );
   }
 

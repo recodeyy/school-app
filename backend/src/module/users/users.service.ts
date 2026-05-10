@@ -642,8 +642,8 @@ export class UsersService {
     data: UserResponseDto[];
     pagination?: { total: number; page: number; limit: number };
   }> {
-    const page = query.page ? parseInt(query.page) : 1;
-    const limit = query.limit ? parseInt(query.limit) : 20;
+    const page = query.page ? parseInt(query.page as any) : 1;
+    const limit = query.limit ? Math.min(parseInt(query.limit as any), 100) : 20;
     const skip = (page - 1) * limit;
 
     const where: any = {};

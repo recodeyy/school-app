@@ -83,13 +83,19 @@ class _FeeListScreenState extends ConsumerState<FeeListScreen> {
                       ),
                       if (!isPaid) ...[
                         const SizedBox(height: 16),
-                        SizedBox(
+                        const SizedBox(height: 16),
+                        Container(
                           width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Implement payment logic
-                            },
-                            child: const Text('Pay Now'),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey.shade300),
+                          ),
+                          child: const Text(
+                            'Online payment coming soon',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],

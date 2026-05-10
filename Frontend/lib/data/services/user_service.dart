@@ -27,7 +27,7 @@ class UserService {
       queryParams: queryParams,
     );
 
-    final List<dynamic> data = response['data'] ?? response;
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => User.fromJson(json)).toList();
   }
 
@@ -40,7 +40,7 @@ class UserService {
     final response = await _apiService.get(
       '${ApiConstants.users}/class/$classId/students',
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => User.fromJson(json)).toList();
   }
 
@@ -48,7 +48,7 @@ class UserService {
     final response = await _apiService.get(
       '${ApiConstants.users}/$parentId/children',
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => User.fromJson(json)).toList();
   }
 

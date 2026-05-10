@@ -1,0 +1,117 @@
+﻿Folder PATH listing for volume New Volume
+Volume serial number is 1064-80B4
+E:\WORK\SCHOOL-APP\FRONTEND\LIB
+|   main.dart
+|   
++---core
+|   +---constants
+|   |       api_constants.dart
+|   |       app_theme.dart
+|   |       user_role.dart
+|   |       
+|   +---errors
+|   |       exceptions.dart
+|   |       
+|   +---providers
+|   |       dashboard_provider.dart
+|   |       providers.dart
+|   |       service_providers.dart
+|   |       
+|   \---utils
+|           date_helper.dart
+|           validation_service.dart
+|           
++---data
+|   +---models
+|   |       attendance_model.dart
+|   |       auth_model.dart
+|   |       dashboard_model.dart
+|   |       fee_model.dart
+|   |       homework_model.dart
+|   |       marks_model.dart
+|   |       notice_model.dart
+|   |       notification_model.dart
+|   |       school_model.dart
+|   |       timetable_model.dart
+|   |       user_model.dart
+|   |       
+|   \---services
+|           ai_service.dart
+|           api_service.dart
+|           attendance_service.dart
+|           auth_service.dart
+|           dashboard_service.dart
+|           excel_import_service.dart
+|           fee_service.dart
+|           homework_service.dart
+|           marks_service.dart
+|           notice_service.dart
+|           notification_service.dart
+|           school_setup_service.dart
+|           timetable_service.dart
+|           user_service.dart
+|           
++---presentation
+|   +---screens
+|   |   +---admin
+|   |   |   +---analytics
+|   |   |   |       ai_insights_screen.dart
+|   |   |   |       
+|   |   |   +---fees
+|   |   |   |       fee_management_screen.dart
+|   |   |   |       
+|   |   |   +---import
+|   |   |   |       excel_import_screen.dart
+|   |   |   |       
+|   |   |   +---school_setup
+|   |   |   |       manage_classes_screen.dart
+|   |   |   |       manage_subjects_screen.dart
+|   |   |   |       setup_dashboard_screen.dart
+|   |   |   |       
+|   |   |   \---user_management
+|   |   |           create_user_screen.dart
+|   |   |           user_list_screen.dart
+|   |   |           
+|   |   +---attendance
+|   |   |       mark_attendance_screen.dart
+|   |   |       student_attendance_screen.dart
+|   |   |       
+|   |   +---auth
+|   |   |       login_screen.dart
+|   |   |       
+|   |   +---fees
+|   |   |       fee_list_screen.dart
+|   |   |       
+|   |   +---home
+|   |   |   |   home_screen.dart
+|   |   |   |   
+|   |   |   \---widgets
+|   |   |           admin_dashboard.dart
+|   |   |           parent_dashboard.dart
+|   |   |           student_dashboard.dart
+|   |   |           teacher_dashboard.dart
+|   |   |           
+|   |   +---homework
+|   |   |       create_homework_screen.dart
+|   |   |       student_homework_screen.dart
+|   |   |       
+|   |   +---marks
+|   |   |       student_results_screen.dart
+|   |   |       upload_marks_screen.dart
+|   |   |       
+|   |   +---notices
+|   |   |       notice_list_screen.dart
+|   |   |       
+|   |   +---notifications
+|   |   |       notification_list_screen.dart
+|   |   |       
+|   |   \---timetable
+|   |           student_timetable_screen.dart
+|   |           timetable_screen.dart
+|   |           
+|   \---widgets
+|           glass_card.dart
+|           
+\---providers
+        auth_provider.dart
+        

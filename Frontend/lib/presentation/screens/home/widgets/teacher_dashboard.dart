@@ -4,9 +4,14 @@ import '../../../../core/providers/dashboard_provider.dart';
 import '../../../../core/constants/app_theme.dart';
 import '../../../../core/providers/providers.dart';
 import '../../attendance/mark_attendance_screen.dart';
-import '../../homework/create_homework_screen.dart';
+import '../../homework/teacher_homework_list_screen.dart';
 import '../../marks/upload_marks_screen.dart';
 import '../../timetable/timetable_screen.dart';
+import '../../teacher/ai_tools/ai_lesson_plan_screen.dart';
+import '../../teacher/ai_tools/ai_quiz_screen.dart';
+import '../../teacher/ai_tools/ai_homework_screen.dart';
+import '../../teacher/ai_tools/ai_question_paper_screen.dart';
+import '../../teacher/ai_tools/ai_report_remarks_screen.dart';
 
 class TeacherDashboard extends ConsumerWidget {
   const TeacherDashboard({super.key});
@@ -34,6 +39,10 @@ class TeacherDashboard extends ConsumerWidget {
               Text('Academic Tasks', style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 20),
               _buildTaskGrid(context),
+              const SizedBox(height: 40),
+              Text('AI Assistant', style: Theme.of(context).textTheme.headlineMedium),
+              const SizedBox(height: 20),
+              _buildAiToolsGrid(context),
             ],
           ),
         ),
@@ -108,7 +117,7 @@ class TeacherDashboard extends ConsumerWidget {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const MarkAttendanceScreen()));
         }),
         _buildActionTile(context, 'Manage Homework', 'Assign and grade work', Icons.auto_stories_rounded, AppColors.secondary, () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateHomeworkScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const TeacherHomeworkListScreen()));
         }),
         _buildActionTile(context, 'Enter Marks', 'Record exam and test results', Icons.grade_rounded, AppColors.warning, () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const UploadMarksScreen()));
@@ -155,6 +164,28 @@ class TeacherDashboard extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildAiToolsGrid(BuildContext context) {
+    return Column(
+      children: [
+        _buildActionTile(context, 'AI Lesson Planner', 'Generate detailed lesson plans in seconds', Icons.auto_awesome, Colors.purple, () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AiLessonPlanScreen()));
+        }),
+        _buildActionTile(context, 'AI Quiz Generator', 'Create quizzes tailored to your class', Icons.quiz, Colors.deepOrange, () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AiQuizScreen()));
+        }),
+        _buildActionTile(context, 'AI Homework Assistant', 'Design creative homework assignments', Icons.auto_stories, Colors.teal, () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AiHomeworkScreen()));
+        }),
+        _buildActionTile(context, 'AI Question Paper', 'Generate full exam papers instantly', Icons.description, Colors.indigo, () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AiQuestionPaperScreen()));
+        }),
+        _buildActionTile(context, 'AI Report Remarks', 'Write personalized student feedback', Icons.assignment_ind, Colors.blueGrey, () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AiReportRemarksScreen()));
+        }),
+      ],
     );
   }
 }

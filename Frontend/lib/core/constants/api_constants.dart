@@ -3,6 +3,10 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ApiConstants {
   static String get baseUrl {
+    const bool isProduction = bool.fromEnvironment('dart.vm.product');
+    if (isProduction) {
+      return 'https://api.schoolapp.com/api'; // Production HTTPS URL
+    }
     if (kIsWeb) {
       return 'http://localhost:4000/api';
     }

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../../data/models/homework_model.dart';
 import '../../../../core/constants/app_theme.dart';
 import '../../../../core/providers/providers.dart';
+import 'submit_homework_screen.dart';
 
 class StudentHomeworkScreen extends ConsumerStatefulWidget {
   const StudentHomeworkScreen({super.key});
@@ -114,7 +115,16 @@ class _StudentHomeworkScreenState extends ConsumerState<StudentHomeworkScreen> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              // Navigate to homework details/submission
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SubmitHomeworkScreen(homework: homework),
+                                ),
+                              ).then((_) {
+                                setState(() {
+                                  _loadData();
+                                });
+                              });
                             },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

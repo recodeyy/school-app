@@ -1,10 +1,11 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../core/constants/api_constants.dart';
 import '../models/auth_model.dart';
 import 'api_service.dart';
 
 class AuthService {
   final ApiService _apiService;
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   AuthService(this._apiService);
 
@@ -18,9 +19,8 @@ class AuthService {
     final tokens = AuthTokens.fromJson(response);
     await _apiService.setAccessToken(tokens.accessToken);
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(AppConstants.refreshTokenKey, tokens.refreshToken);
-    await prefs.setString(AppConstants.userRoleKey, response['user']['role']);
+    await _storage.write(key: AppConstants.refreshTokenKey, value: tokens.refreshToken);
+    await _storage.write(key: AppConstants.userRoleKey, value: response['user']['role']);
 
     return LoginResponse.fromJson(response);
   }
@@ -35,27 +35,23 @@ class AuthService {
     final tokens = AuthTokens.fromJson(response);
     await _apiService.setAccessToken(tokens.accessToken);
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(AppConstants.refreshTokenKey, tokens.refreshToken);
+    await _storage.write(key: AppConstants.refreshTokenKey, value: tokens.refreshToken);
 
     return tokens;
   }
 
   Future<void> logout() async {
     await _apiService.clearToken();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(AppConstants.userRoleKey);
+    await _storage.delete(key: AppConstants.userRoleKey);
   }
 
   Future<bool> isLoggedIn() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString(AppConstants.tokenKey);
+    final token = await _storage.read(key: AppConstants.tokenKey);
     return token != null && token.isNotEmpty;
   }
 
   Future<String?> getUserRole() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(AppConstants.userRoleKey);
+    return await _storage.read(key: AppConstants.userRoleKey);
   }
 
   Future<User> getProfile() async {

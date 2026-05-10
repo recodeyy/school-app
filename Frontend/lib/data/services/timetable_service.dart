@@ -9,13 +9,13 @@ class TimetableService {
 
   Future<List<TimetableEntry>> getClassTimetable(String classId) async {
     final response = await _apiService.get('${ApiConstants.timetable}/class/$classId');
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => TimetableEntry.fromJson(json)).toList();
   }
 
   Future<List<TimetableEntry>> getTeacherTimetable(String teacherId) async {
     final response = await _apiService.get('${ApiConstants.timetable}/teacher/$teacherId');
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => TimetableEntry.fromJson(json)).toList();
   }
 

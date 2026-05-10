@@ -1,3 +1,5 @@
+import '../../core/errors/exceptions.dart';
+
 class User {
   final String id;
   final String name;
@@ -26,10 +28,15 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
+    final email = json['email'] ?? '';
+    if (email.isEmpty || !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      throw ValidationException(message: 'Invalid email: $email');
+    }
+
     return User(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      email: json['email'] ?? '',
+      id: json['id'] ?? (throw ValidationException(message: 'Missing id')),
+      name: json['name'] ?? (throw ValidationException(message: 'Missing name')),
+      email: email,
       phone: json['phone'],
       role: json['role'] ?? 'STUDENT',
       avatarUrl: json['avatarUrl'],

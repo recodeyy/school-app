@@ -1,4 +1,5 @@
 import '../../core/constants/api_constants.dart';
+import '../../core/utils/date_helper.dart';
 import '../models/fee_model.dart';
 import 'api_service.dart';
 
@@ -21,7 +22,7 @@ class FeeService {
         'title': title,
         'description': description,
         'amount': amount,
-        'dueDate': dueDate.toIso8601String().split('T')[0],
+        'dueDate': DateHelper.formatDateForApi(dueDate),
       },
     );
     return Fee.fromJson(response);
@@ -36,7 +37,7 @@ class FeeService {
       ApiConstants.fees,
       queryParams: queryParams,
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Fee.fromJson(json)).toList();
   }
 
@@ -64,7 +65,7 @@ class FeeService {
 
   Future<List<Payment>> getFeePayments(String feeId) async {
     final response = await _apiService.get('${ApiConstants.fees}/$feeId/payments');
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Payment.fromJson(json)).toList();
   }
 }

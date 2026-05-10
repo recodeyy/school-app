@@ -1,5 +1,5 @@
 import '../../core/constants/api_constants.dart';
-import '../models/school_model.dart';
+import '../../core/utils/date_helper.dart';import '../models/school_model.dart';
 import 'api_service.dart';
 
 class SchoolSetupService {
@@ -9,7 +9,7 @@ class SchoolSetupService {
 
   Future<List<SchoolClass>> getClasses() async {
     final response = await _apiService.get(ApiConstants.classes);
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => SchoolClass.fromJson(json)).toList();
   }
 
@@ -35,7 +35,7 @@ class SchoolSetupService {
       ApiConstants.subjects,
       queryParams: queryParams,
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Subject.fromJson(json)).toList();
   }
 
@@ -59,7 +59,7 @@ class SchoolSetupService {
 
   Future<List<AcademicYear>> getAcademicYears() async {
     final response = await _apiService.get(ApiConstants.academicYears);
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => AcademicYear.fromJson(json)).toList();
   }
 
@@ -72,8 +72,8 @@ class SchoolSetupService {
       ApiConstants.academicYears,
       body: {
         'name': name,
-        'startDate': startDate.toIso8601String().split('T')[0],
-        'endDate': endDate.toIso8601String().split('T')[0],
+        'startDate': DateHelper.formatDateForApi(startDate),
+        'endDate': DateHelper.formatDateForApi(endDate),
       },
     );
     return AcademicYear.fromJson(response);
@@ -81,7 +81,7 @@ class SchoolSetupService {
 
   Future<List<Holiday>> getHolidays() async {
     final response = await _apiService.get(ApiConstants.holidays);
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Holiday.fromJson(json)).toList();
   }
 
@@ -94,7 +94,7 @@ class SchoolSetupService {
       ApiConstants.holidays,
       body: {
         'name': name,
-        'date': date.toIso8601String().split('T')[0],
+        'date': DateHelper.formatDateForApi(date),
         'description': description,
       },
     );
@@ -103,7 +103,7 @@ class SchoolSetupService {
 
   Future<List<Period>> getPeriods() async {
     final response = await _apiService.get(ApiConstants.periods);
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Period.fromJson(json)).toList();
   }
 
@@ -133,7 +133,7 @@ class SchoolSetupService {
       ApiConstants.sections,
       queryParams: queryParams,
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Section.fromJson(json)).toList();
   }
 

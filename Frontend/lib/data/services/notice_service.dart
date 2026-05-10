@@ -33,7 +33,7 @@ class NoticeService {
       ApiConstants.notices,
       queryParams: queryParams,
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => Notice.fromJson(json)).toList();
   }
 

@@ -40,13 +40,19 @@ export class AuthService {
   async getTokens(user: User) {
     const payload = { sub: user.id, role: user.role };
 
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) throw new Error('JWT_SECRET is not configured');
+
     const accessToken = this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET || 'CHANGE_ME',
+      secret: jwtSecret,
       expiresIn: (process.env.JWT_EXPIRES_IN as StringValue) || '1h',
     });
 
+    const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;
+    if (!jwtRefreshSecret) throw new Error('JWT_REFRESH_SECRET is not configured');
+
     const refreshToken = this.jwtService.sign(payload, {
-      secret: process.env.JWT_REFRESH_SECRET || 'CHANGE_ME_REFRESH',
+      secret: jwtRefreshSecret,
       expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN as StringValue) || '7d',
     });
 
@@ -81,8 +87,11 @@ export class AuthService {
     if (!refreshToken)
       throw new BadRequestException('Refresh token is required');
     try {
+      const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;
+      if (!jwtRefreshSecret) throw new Error('JWT_REFRESH_SECRET is not configured');
+
       const payload = this.jwtService.verify(refreshToken, {
-        secret: process.env.JWT_REFRESH_SECRET || 'CHANGE_ME_REFRESH',
+        secret: jwtRefreshSecret,
       });
 
       if (!payload?.sub)

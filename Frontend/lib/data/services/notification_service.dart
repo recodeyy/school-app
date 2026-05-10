@@ -15,7 +15,7 @@ class NotificationService {
       ApiConstants.notifications,
       queryParams: queryParams,
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => AppNotification.fromJson(json)).toList();
   }
 

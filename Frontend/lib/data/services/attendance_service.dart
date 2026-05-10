@@ -1,4 +1,5 @@
 import '../../core/constants/api_constants.dart';
+import '../../core/utils/date_helper.dart';
 import '../models/attendance_model.dart';
 import 'api_service.dart';
 
@@ -18,7 +19,7 @@ class AttendanceService {
       body: {
         'classId': classId,
         'subjectId': subjectId,
-        'date': date.toIso8601String().split('T')[0],
+        'date': DateHelper.formatDateForApi(date),
         'startTime': startTime,
       },
     );
@@ -33,13 +34,13 @@ class AttendanceService {
     final queryParams = <String, String>{};
     if (classId != null) queryParams['classId'] = classId;
     if (subjectId != null) queryParams['subjectId'] = subjectId;
-    if (date != null) queryParams['date'] = date.toIso8601String().split('T')[0];
+    if (date != null) queryParams['date'] = DateHelper.formatDateForApi(date);
 
     final response = await _apiService.get(
       ApiConstants.attendance,
       queryParams: queryParams,
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => AttendanceSession.fromJson(json)).toList();
   }
 
@@ -63,7 +64,7 @@ class AttendanceService {
     final response = await _apiService.get(
       '${ApiConstants.attendance}/student/$studentId',
     );
-    final List<dynamic> data = response is List ? response : response['data'] ?? [];
+    final List<dynamic> data = response['data'] ?? [];
     return data.map((json) => AttendanceRecord.fromJson(json)).toList();
   }
 
