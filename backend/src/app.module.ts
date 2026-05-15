@@ -16,13 +16,16 @@ import { FeesModule } from './module/fees/fees.module.js';
 import { NotificationsModule } from './module/notifications/notifications.module.js';
 import { DashboardModule } from './module/dashboard/dashboard.module.js';
 import { ExcelImportModule } from './module/excel-import/excel-import.module.js';
+import { AdmissionsModule } from './module/admissions/admissions.module.js';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot([{
-      ttl: 60000,
-      limit: 100,
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
     AuthModule,
     SchoolSetupModule,
     UsersModule,
@@ -36,6 +39,7 @@ import { ExcelImportModule } from './module/excel-import/excel-import.module.js'
     NotificationsModule,
     DashboardModule,
     ExcelImportModule,
+    AdmissionsModule,
   ],
   controllers: [AppController],
   providers: [

@@ -49,7 +49,8 @@ export class AuthService {
     });
 
     const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;
-    if (!jwtRefreshSecret) throw new Error('JWT_REFRESH_SECRET is not configured');
+    if (!jwtRefreshSecret)
+      throw new Error('JWT_REFRESH_SECRET is not configured');
 
     const refreshToken = this.jwtService.sign(payload, {
       secret: jwtRefreshSecret,
@@ -88,7 +89,8 @@ export class AuthService {
       throw new BadRequestException('Refresh token is required');
     try {
       const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;
-      if (!jwtRefreshSecret) throw new Error('JWT_REFRESH_SECRET is not configured');
+      if (!jwtRefreshSecret)
+        throw new Error('JWT_REFRESH_SECRET is not configured');
 
       const payload = this.jwtService.verify(refreshToken, {
         secret: jwtRefreshSecret,

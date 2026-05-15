@@ -73,6 +73,40 @@ enum GroupType {
   @@schema("public")
 }
 
+enum LeadStatus {
+  NEW             @map("new")
+  CONTACTED       @map("contacted")
+  VISIT_SCHEDULED @map("visit_scheduled")
+  APPLICATION_SENT @map("application_sent")
+  APPLIED         @map("applied")
+  ADMITTED        @map("admitted")
+  LOST            @map("lost")
+
+  @@schema("public")
+}
+
+enum LeadSource {
+  WALKIN    @map("walk_in")
+  WEBSITE   @map("website")
+  INSTAGRAM @map("instagram")
+  WHATSAPP  @map("whatsapp")
+  REFERRAL  @map("referral")
+  GOOGLE    @map("google")
+  CAMPAIGN  @map("campaign")
+  OTHER     @map("other")
+
+  @@schema("public")
+}
+
+enum ApplicationStatus {
+  PENDING   @map("pending")
+  REVIEWING @map("reviewing")
+  APPROVED  @map("approved")
+  REJECTED  @map("rejected")
+
+  @@schema("public")
+}
+
 enum MessageType {
   TEXT          @map("text")
   IMAGE         @map("image")
@@ -166,7 +200,8 @@ model User {
   feesAsStudent           Fee[]                 @relation("FeeStudent")
   feePayments             FeePayment[]          @relation("FeePaymentRecordedBy")
   aiUsageLogs             AiUsageLog[]          @relation("AiUsageLogs")
-
+  leadsAssigned           AdmissionLead[]       @relation("LeadAssignedTo")
+  leadFollowUps           LeadFollowUp[]        @relation("LeadFollowUps")
   @@map("users")
   @@schema("tenant")
 }
@@ -603,5 +638,101 @@ model AiCreditAllocation {
   @@unique([role, module])
   @@map("ai_credit_allocations")
 
+  @@schema("tenant")
+}
+
+model SchoolProfile {
+  id              String   @id @default(uuid()) @db.Uuid
+  about           String?
+  facilities      String[]
+  achievements    String[]
+  gallery         String[]
+  contactEmail    String?  @map("contact_email") @db.VarChar(255)
+  contactPhone    String?  @map("contact_phone") @db.VarChar(50)
+  address         String?
+  brochureUrl     String?  @map("brochure_url")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("school_profiles")
+  @@schema("tenant")
+}
+
+model AdmissionLead {
+  id                 String     @id @default(uuid()) @db.Uuid
+  childName          String     @map("child_name") @db.VarChar(150)
+  parentName         String     @map("parent_name") @db.VarChar(150)
+  phone              String     @db.VarChar(50)
+  email              String?    @db.VarChar(255)
+  classRequested     String     @map("class_requested") @db.VarChar(50)
+  source             LeadSource @default(OTHER)
+  status             LeadStatus @default(NEW)
+  preferredVisitTime DateTime?  @map("preferred_visit_time") @db.Timestamptz(6)
+  notes              String?
+  assignedToId       String?    @map("assigned_to_id") @db.Uuid
+  createdAt          DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime   @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  assignedTo         User?      @relation("LeadAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
+  followUps          LeadFollowUp[]
+  applications       AdmissionApplication[]
+
+  @@index([status])
+  @@index([assignedToId])
+  @@map("admission_leads")
+  @@schema("tenant")
+}
+
+model LeadFollowUp {
+  id           String   @id @default(uuid()) @db.Uuid
+  leadId       String   @map("lead_id") @db.Uuid
+  counselorId  String   @map("counselor_id") @db.Uuid
+  actionType   String   @map("action_type") @db.VarChar(50)
+  notes        String?
+  isReminder   Boolean  @default(false) @map("is_reminder")
+  reminderDate DateTime? @map("reminder_date") @db.Timestamptz(6)
+  isCompleted  Boolean  @default(false) @map("is_completed")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  lead         AdmissionLead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  counselor    User          @relation("LeadFollowUps", fields: [counselorId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+  @@index([counselorId])
+  @@index([reminderDate])
+  @@map("lead_follow_ups")
+  @@schema("tenant")
+}
+
+model AdmissionApplication {
+  id             String            @id @default(uuid()) @db.Uuid
+  leadId         String            @map("lead_id") @db.Uuid
+  previousSchool String?           @map("previous_school") @db.VarChar(255)
+  status         ApplicationStatus @default(PENDING)
+  declaration    Boolean           @default(false)
+  submittedAt    DateTime?         @map("submitted_at") @db.Timestamptz(6)
+  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime          @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  lead           AdmissionLead         @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  documents      ApplicationDocument[]
+
+  @@index([leadId])
+  @@index([status])
+  @@map("admission_applications")
+  @@schema("tenant")
+}
+
+model ApplicationDocument {
+  id             String   @id @default(uuid()) @db.Uuid
+  applicationId  String   @map("application_id") @db.Uuid
+  documentType   String   @map("document_type") @db.VarChar(50)
+  fileUrl        String   @map("file_url")
+  uploadedAt     DateTime @default(now()) @map("uploaded_at") @db.Timestamptz(6)
+
+  application    AdmissionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId])
+  @@map("application_documents")
   @@schema("tenant")
 }
