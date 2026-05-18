@@ -5,34 +5,48 @@ import { PrismaService } from '../prisma/prisma.service.js';
 export class DashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Admin Dashboard Stats
-   */
   async getAdminDashboard() {
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
     const [
       totalStudents,
       totalTeachers,
+      totalParents,
+      totalStaff,
       totalClasses,
-      activeNotices,
-      pendingFees,
+      totalSubjects,
+      todayAttendance,
+      totalAttendance,
+      pendingHomework,
+      totalFees,
+      collectedFees
     ] = await Promise.all([
       this.prisma.user.count({ where: { role: 'STUDENT', isActive: true } }),
       this.prisma.user.count({ where: { role: 'TEACHER', isActive: true } }),
+      this.prisma.user.count({ where: { role: 'PARENT', isActive: true } }),
+      this.prisma.user.count({ where: { role: { in: ['ADMIN', 'PRINCIPAL', 'SUPER_ADMIN', 'ADMISSION_COUNSELOR'] }, isActive: true } }),
       this.prisma.schoolClass.count(),
-      this.prisma.notice.count({ where: { isActive: true } }),
-      this.prisma.fee.count({
-        where: { status: { in: ['PENDING', 'PARTIAL', 'OVERDUE'] } },
-      }),
+      this.prisma.subject.count(),
+      this.prisma.attendanceRecord.count({ where: { date: today, status: 'PRESENT' } }),
+      this.prisma.attendanceRecord.count({ where: { status: 'PRESENT' } }),
+      this.prisma.homework.count({ where: { dueDate: { gte: today } } }),
+      this.prisma.fee.count(),
+      this.prisma.fee.count({ where: { status: 'PAID' } })
     ]);
 
     return {
-      quickStats: {
-        totalStudents,
-        totalTeachers,
-        totalClasses,
-        activeNotices,
-        pendingFees,
-      },
+      totalStudents,
+      totalTeachers,
+      totalParents,
+      totalStaff,
+      totalClasses,
+      totalSubjects,
+      todayAttendance,
+      totalAttendance,
+      pendingHomework,
+      totalFees,
+      collectedFees
     };
   }
 

@@ -5,6 +5,10 @@ import 'dotenv/config';
 import { AppModule } from './app.module.js';
 
 async function bootstrap() {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not defined!');
+  }
+
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -14,12 +18,11 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: true,
+    origin: ['http://localhost:3000', 'http://localhost:4000'],
     credentials: true,
   });
 
   app.setGlobalPrefix('api');
-  app.enableCors();
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('School App API')

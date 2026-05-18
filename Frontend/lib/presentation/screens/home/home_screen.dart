@@ -7,6 +7,9 @@ import 'widgets/student_dashboard.dart';
 import 'widgets/parent_dashboard.dart';
 import '../notifications/notification_list_screen.dart';
 import '../notices/notice_list_screen.dart';
+import '../timetable/timetable_screen.dart';
+import '../timetable/student_timetable_screen.dart';
+import '../profile/profile_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -46,9 +49,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: _selectedIndex == 0 
           ? _buildDashboard(role)
-          : _selectedIndex == 2
-              ? const NoticeListScreen()
-              : const Center(child: Text('Coming Soon')),
+          : _selectedIndex == 1
+              ? _buildSchedule(role)
+              : _selectedIndex == 2
+                  ? const NoticeListScreen()
+                  : const ProfileScreen(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
@@ -85,6 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildDashboard(String role) {
     switch (role) {
+      case 'ADMISSION_COUNSELOR':
       case 'ADMIN':
       case 'PRINCIPAL':
       case 'SUPER_ADMIN':
@@ -96,6 +102,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       case 'STUDENT':
       default:
         return const StudentDashboard();
+    }
+  }
+
+  Widget _buildSchedule(String role) {
+    switch (role) {
+      case 'STUDENT':
+        return const StudentTimetableScreen();
+      case 'PARENT':
+        return const Center(child: Text('Select a child from Dashboard to view schedule.'));
+      default:
+        return const TimetableScreen();
     }
   }
 }

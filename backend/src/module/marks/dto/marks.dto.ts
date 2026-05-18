@@ -1,16 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsArray,
-  IsBoolean,
-  IsDateString,
-  IsEnum,
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MinLength,
-  ValidateNested,
-} from 'class-validator';
+import { IsArray, IsBoolean, IsDateString, IsEnum, IsNumber, IsOptional, IsString, IsUUID, MinLength, ValidateNested, , Max, IsInt } from 'class-validator';
 import { Type } from 'class-transformer';
 
 enum ExamTypeEnum {
@@ -129,6 +118,8 @@ export class QueryResultsDto {
 
   @ApiPropertyOptional({ example: '20' })
   @IsOptional()
-  @IsString()
-  limit?: string;
+  @Type(() => Number)
+  @IsInt()
+  @Max(100)
+  limit?: number;
 }

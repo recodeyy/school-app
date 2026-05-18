@@ -1,13 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsArray,
-  IsDateString,
-  IsEnum,
-  IsOptional,
-  IsString,
-  IsUUID,
-  ValidateNested,
-} from 'class-validator';
+import { IsArray, IsDateString, IsEnum, IsOptional, IsString, IsUUID, ValidateNested, , Max, IsInt } from 'class-validator';
 import { Type } from 'class-transformer';
 
 enum AttendanceStatusEnum {
@@ -114,6 +106,8 @@ export class QueryAttendanceDto {
 
   @ApiPropertyOptional({ example: '20', description: 'Items per page' })
   @IsOptional()
-  @IsString()
-  limit?: string;
+  @Type(() => Number)
+  @IsInt()
+  @Max(100)
+  limit?: number;
 }

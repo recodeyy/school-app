@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_theme.dart';
 import '../../../../core/providers/providers.dart';
+import '../../../../data/models/dashboard_model.dart';
 import '../../fees/fee_list_screen.dart';
+import '../../attendance/student_attendance_screen.dart';
+import '../../marks/student_results_screen.dart';
+import '../../notices/notice_list_screen.dart';
 
 class ParentDashboard extends ConsumerStatefulWidget {
   const ParentDashboard({super.key});
@@ -12,7 +16,8 @@ class ParentDashboard extends ConsumerStatefulWidget {
 }
 
 class _ParentDashboardState extends ConsumerState<ParentDashboard> {
-  late Future<dynamic> _dashboardFuture;
+  late Future<ParentDashboardData> _dashboardFuture;
+  String? _selectedChildId;
 
   @override
   void initState() {
@@ -27,7 +32,7 @@ class _ParentDashboardState extends ConsumerState<ParentDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dynamic>(
+    return FutureBuilder<ParentDashboardData>(
       future: _dashboardFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -37,6 +42,18 @@ class _ParentDashboardState extends ConsumerState<ParentDashboard> {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
         
+        final data = snapshot.data!;
+        if (data.childrenOverview.isEmpty) {
+          return const Center(child: Text('No children found.'));
+        }
+
+        // Default to first child if none selected
+        _selectedChildId ??= data.childrenOverview.first.childId;
+        final selectedChild = data.childrenOverview.firstWhere(
+          (c) => c.childId == _selectedChildId,
+          orElse: () => data.childrenOverview.first,
+        );
+
         return RefreshIndicator(
           onRefresh: () async {
             setState(() {
@@ -57,7 +74,31 @@ class _ParentDashboardState extends ConsumerState<ParentDashboard> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                _buildChildCard('John Doe', 'Class 10-A', 'Roll No: 1'),
+                if (data.childrenOverview.length > 1)
+                  DropdownButton<String>(
+                    value: _selectedChildId,
+                    isExpanded: true,
+                    items: data.childrenOverview.map((child) {
+                      return DropdownMenuItem(
+                        value: child.childId,
+                        child: Text(child.name),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() {
+                          _selectedChildId = val;
+                        });
+                      }
+                    },
+                  ),
+                if (data.childrenOverview.length > 1)
+                  const SizedBox(height: 16),
+                _buildChildCard(
+                  selectedChild.name, 
+                  selectedChild.dashboard.className ?? 'N/A', 
+                  'Roll No: ${selectedChild.dashboard.rollNumber ?? 'N/A'}'
+                ),
                 const SizedBox(height: 24),
                 const Text(
                   'Quick Access',
@@ -70,12 +111,27 @@ class _ParentDashboardState extends ConsumerState<ParentDashboard> {
                 _buildQuickAction('Fees & Payments', Icons.payment, AppColors.primary, () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const FeeListScreen()),
+                    MaterialPageRoute(builder: (context) => FeeListScreen(studentId: selectedChild.childId)),
                   );
                 }),
-                _buildQuickAction('Attendance', Icons.calendar_today, AppColors.success, () {}),
-                _buildQuickAction('Exam Results', Icons.grade, AppColors.warning, () {}),
-                _buildQuickAction('Notices', Icons.notifications_none, AppColors.accent, () {}),
+                _buildQuickAction('Attendance', Icons.calendar_today, AppColors.success, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StudentAttendanceScreen()), // Needs studentId modification if supported
+                  );
+                }),
+                _buildQuickAction('Exam Results', Icons.grade, AppColors.warning, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StudentResultsScreen()), // Needs studentId modification if supported
+                  );
+                }),
+                _buildQuickAction('Notices', Icons.notifications_none, AppColors.accent, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NoticeListScreen()),
+                  );
+                }),
               ],
             ),
           ),

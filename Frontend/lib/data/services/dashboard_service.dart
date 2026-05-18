@@ -13,23 +13,17 @@ class DashboardService {
   }
 
   Future<StudentDashboardData> getStudentDashboard(String studentId) async {
-    final response = await _apiService.get(
-      '${ApiConstants.dashboard}/student/$studentId',
-    );
+    final response = await _apiService.get('${ApiConstants.dashboard}/student');
     return StudentDashboardData.fromJson(response);
   }
 
   Future<TeacherDashboardData> getTeacherDashboard(String teacherId) async {
-    final response = await _apiService.get(
-      '${ApiConstants.dashboard}/teacher/$teacherId',
-    );
+    final response = await _apiService.get('${ApiConstants.dashboard}/teacher');
     return TeacherDashboardData.fromJson(response);
   }
 
-  Future<StudentDashboardData> getParentDashboard(String parentId) async {
-    final response = await _apiService.get(
-      '${ApiConstants.dashboard}/parent/$parentId',
-    );
-    return StudentDashboardData.fromJson(response);
+  Future<ParentDashboardData> getParentDashboard(String parentId) async {
+    final response = await _apiService.get('${ApiConstants.dashboard}/parent');
+    return ParentDashboardData.fromJson(response);
   }
 }

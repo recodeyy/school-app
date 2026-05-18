@@ -1,5 +1,6 @@
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsEnum, IsOptional, IsString, IsUUID, Max, IsInt } from 'class-validator';
 import { UserRole } from '../../../generated/prisma/client.js';
 
 export class QueryUsersDto {
@@ -41,8 +42,10 @@ export class QueryUsersDto {
     description: 'Items per page',
   })
   @IsOptional()
-  @IsString()
-  limit?: string;
+  @Type(() => Number)
+  @IsInt()
+  @Max(100)
+  limit?: number;
 }
 
 export class StudentProfileResponseDto {

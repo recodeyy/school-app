@@ -1,13 +1,6 @@
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsArray,
-  IsBoolean,
-  IsDateString,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MinLength,
-} from 'class-validator';
+import { IsArray, IsBoolean, IsDateString, IsOptional, IsString, IsUUID, MinLength, , Max, IsInt } from 'class-validator';
 
 export class CreateNoticeDto {
   @ApiProperty({ example: 'Annual Sports Day', description: 'Notice title' })
@@ -95,6 +88,8 @@ export class QueryNoticeDto {
 
   @ApiPropertyOptional({ example: '20' })
   @IsOptional()
-  @IsString()
-  limit?: string;
+  @Type(() => Number)
+  @IsInt()
+  @Max(100)
+  limit?: number;
 }

@@ -1,13 +1,6 @@
+import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsDateString,
-  IsEnum,
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MinLength,
-} from 'class-validator';
+import { IsDateString, IsEnum, IsNumber, IsOptional, IsString, IsUUID, MinLength, , Max, IsInt } from 'class-validator';
 
 enum FeeStatusEnum {
   PENDING = 'PENDING',
@@ -78,6 +71,8 @@ export class QueryFeesDto {
 
   @ApiPropertyOptional({ example: '20' })
   @IsOptional()
-  @IsString()
-  limit?: string;
+  @Type(() => Number)
+  @IsInt()
+  @Max(100)
+  limit?: number;
 }

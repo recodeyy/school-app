@@ -144,3 +144,38 @@ class Notice {
     );
   }
 }
+
+class ParentDashboardData {
+  final List<ChildOverview> childrenOverview;
+
+  ParentDashboardData({required this.childrenOverview});
+
+  factory ParentDashboardData.fromJson(Map<String, dynamic> json) {
+    return ParentDashboardData(
+      childrenOverview: (json['childrenOverview'] as List?)
+              ?.map((c) => ChildOverview.fromJson(c))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class ChildOverview {
+  final String childId;
+  final String name;
+  final StudentDashboardData dashboard;
+
+  ChildOverview({
+    required this.childId,
+    required this.name,
+    required this.dashboard,
+  });
+
+  factory ChildOverview.fromJson(Map<String, dynamic> json) {
+    return ChildOverview(
+      childId: json['childId'] ?? '',
+      name: json['name'] ?? '',
+      dashboard: StudentDashboardData.fromJson(json['dashboard'] ?? {}),
+    );
+  }
+}
